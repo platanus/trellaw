@@ -27,6 +27,8 @@ gem 'sentry-raven'
 gem 'simple_token_authentication', '~> 1.0'
 gem 'uglifier', '>= 1.3.0'
 gem 'versionist'
+gem 'oauth'
+gem 'ruby-trello'
 
 group :production do
   gem 'rack-timeout'

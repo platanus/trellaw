@@ -1,4 +1,11 @@
+Rails.application.routes.default_url_options = {
+  host: ENV['APPLICATION_HOST']
+}
+
 Rails.application.routes.draw do
+  get 'trello/connect'
+  get 'trello/connected'
+
   scope path: '/api' do
     api_version(module: "Api::V1", path: { value: "v1" }) do
     end

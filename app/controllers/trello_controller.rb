@@ -5,7 +5,9 @@ class TrelloController < ApplicationController
     session[:token] = request_token.token
     session[:token_secret] = request_token.secret
 
-    redirect_to request_token.authorize_url(oauth_callback: trello_connected_url)
+    redirect_to(
+      request_token.authorize_url(oauth_callback: trello_connected_url) + '&scope=read,write'
+    )
   end
 
   def connected

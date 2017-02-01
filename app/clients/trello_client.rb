@@ -17,21 +17,28 @@ class TrelloClient
     )
   end
 
-  def initialize(_access_token, _access_secret)
-    # we could use the oauth client directly...
-    #
-    # @client = OAuth::AccessToken.from_hash(
-    #   self.class.oauth_consumer,
-    #   oauth_token: _access_token,
-    #   oauth_token_secret: _access_secret
-    # )
-    #
-    @client = Trello::Client.new(
-      consumer_key: TRELLO_API_KEY,
-      consumer_secret: TRELLO_API_SECRET,
-      oauth_token: _access_token,
-      oauth_token_secret: _access_secret
+  def self.ham
+    new client: Trello::Client.new(
+      developer_public_key: ENV['TRELLO_HAM_KEY'],
+      member_token: ENV['TRELLO_HAM_TOKEN']
     )
+  end
+
+  def initialize(access_token: nil, access_secret: nil, client: nil)
+    if client.present?
+      @client = client
+    else
+      # we could use the oauth client directly:
+      #
+      # @client = OAuth::AccessToken.from_hash oauth_consumer, oauth_token: x, oauth_token_secret: y
+      #
+      @client = Trello::Client.new(
+        consumer_key: TRELLO_API_KEY,
+        consumer_secret: TRELLO_API_SECRET,
+        oauth_token: access_token,
+        oauth_token_secret: access_secret
+      )
+    end
   end
 
   def user

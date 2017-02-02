@@ -3,6 +3,9 @@ Rails.application.routes.default_url_options = {
 }
 
 Rails.application.routes.draw do
+  devise_for :users
+  devise_for :admin_users, ActiveAdmin::Devise.config
+
   get 'trello/connect'
   get 'trello/connected'
 
@@ -10,7 +13,7 @@ Rails.application.routes.draw do
     api_version(module: "Api::V1", path: { value: "v1" }) do
     end
   end
-  devise_for :admin_users, ActiveAdmin::Devise.config
+
   ActiveAdmin.routes(self)
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

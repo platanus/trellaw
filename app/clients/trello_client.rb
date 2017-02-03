@@ -17,37 +17,26 @@ class TrelloClient
     )
   end
 
-  def self.ham
-    new client: Trello::Client.new(
-      developer_public_key: ENV['TRELLO_HAM_KEY'],
-      member_token: ENV['TRELLO_HAM_TOKEN']
+  def self.from_oauth(access_token: nil, access_secret: nil)
+    new Trello::Client.new(
+      consumer_key: TRELLO_API_KEY,
+      consumer_secret: TRELLO_API_SECRET,
+      oauth_token: access_token,
+      oauth_token_secret: access_secret
     )
   end
 
-  def initialize(access_token: nil, access_secret: nil, client: nil)
-    if client.present?
-      @client = client
-    else
-      # we could use the oauth client directly:
-      #
-      # @client = OAuth::AccessToken.from_hash oauth_consumer, oauth_token: x, oauth_token_secret: y
-      #
-      @client = Trello::Client.new(
-        consumer_key: TRELLO_API_KEY,
-        consumer_secret: TRELLO_API_SECRET,
-        oauth_token: access_token,
-        oauth_token_secret: access_secret
-      )
-    end
+  def self.from_member_token(api_key: nil, member_token: nil)
+    new Trello::Client.new(
+      developer_public_key: api_key,
+      member_token: member_token
+    )
   end
 
-  def user
-    # using the oauth client: @client.get('/1/members/me')
+  def initialize(_client)
+    # we could use the oauth client directly:
+    # @client = OAuth::AccessToken.from_hash oauth_consumer, oauth_token: x, oauth_token_secret: y
     #
-    @user ||= @client.find('members', 'me')
-  end
-
-  def boards
-    @boards ||= user.boards
+    @client = _client
   end
 end

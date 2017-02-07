@@ -9,12 +9,12 @@ RSpec.describe BoardLaw, type: :model do
 
   describe 'associations' do
     it { is_expected.to belong_to(:board) }
-    it { is_expected.to belong_to(:law) }
   end
 
   describe 'validations' do
     it { is_expected.to validate_presence_of(:board) }
     it { is_expected.to validate_presence_of(:law) }
+    it { is_expected.to validate_inclusion_of(:law).in_array(LawUtils.available_laws) }
     it { is_expected.to validate_presence_of(:list_tid) }
   end
 end

@@ -1,7 +1,7 @@
 class BoardLaw < ActiveRecord::Base
   belongs_to :board
 
-  validates_inclusion_of :law, in: LawUtils.available_laws
+  validates_inclusion_of :law, in: LawService.available_laws
   validates_presence_of :board, :law, :list_tid
 end
 

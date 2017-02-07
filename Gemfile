@@ -29,6 +29,7 @@ gem 'uglifier', '>= 1.3.0'
 gem 'versionist'
 gem 'oauth'
 gem 'ruby-trello'
+gem 'power-types'
 
 group :production do
   gem 'rack-timeout'

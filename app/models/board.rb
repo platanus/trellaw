@@ -1,6 +1,7 @@
 class Board < ActiveRecord::Base
   belongs_to :user
   has_many :board_laws, inverse_of: :board
+  has_many :violations, inverse_of: :board
 
   validates_presence_of :user, :board_tid
 end

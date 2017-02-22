@@ -5,6 +5,10 @@ class User < ActiveRecord::Base
     :validatable
 
   has_many :boards, inverse_of: :user, dependent: :destroy
+
+  def linked?
+    trello_access_token.present?
+  end
 end
 
 # == Schema Information

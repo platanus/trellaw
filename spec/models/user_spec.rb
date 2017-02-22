@@ -10,4 +10,12 @@ RSpec.describe User, type: :model do
   describe 'associations' do
     it { is_expected.to have_many(:boards) }
   end
+
+  describe '#linked?' do
+    it "returns true if user has an assigned trello_access_token" do
+      expect(user.linked?).to be false
+      user.trello_access_token = 'sometoken'
+      expect(user.linked?).to be true
+    end
+  end
 end

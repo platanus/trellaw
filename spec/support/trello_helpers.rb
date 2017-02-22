@@ -24,6 +24,18 @@ module TrelloHelpers
       webhooks.delete tid
     end
 
+    def get_own_boards
+      []
+    end
+
+    def get_board(_board_tid)
+      nil
+    end
+
+    def get_lists(_board_tid)
+      []
+    end
+
     private
 
     def gen_id

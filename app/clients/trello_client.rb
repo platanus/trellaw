@@ -70,6 +70,37 @@ class TrelloClient
     webhook.delete
   end
 
+  def get_own_boards
+    boards = @client.find_many(Trello::Board, '/members/me/boards?filter=open')
+    boards.map do |board|
+      TrelloBoard.new.tap do |trello_board|
+        trello_board.tid = board.id
+        trello_board.name = board.name
+        trello_board.description = board.description
+      end
+    end
+  end
+
+  def get_board(_board_tid)
+    board = @client.find(:board, _board_tid)
+
+    TrelloBoard.new.tap do |trello_board|
+      trello_board.tid = board.id
+      trello_board.name = board.name
+      trello_board.description = board.description
+    end
+  end
+
+  def get_lists(_board_tid)
+    lists = @client.find_many(Trello::List, "/boards/#{_board_tid}/lists?filter=open")
+    lists.map do |list|
+      TrelloList.new.tap do |trello_list|
+        trello_list.tid = list.id
+        trello_list.name = list.name
+      end
+    end
+  end
+
   private
 
   def get_board_member_ids(_board_tid)

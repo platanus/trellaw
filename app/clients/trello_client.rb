@@ -39,4 +39,45 @@ class TrelloClient
     #
     @client = _client
   end
+
+  def get_member_tid
+    @client.find('members', 'me').id
+  end
+
+  def board_member?(_board_tid, _member_tid)
+    get_board_member_ids(_board_tid).any? { |m_id| m_id == _member_tid }
+  end
+
+  def add_board_member(_board_tid, _member_tid, type: :normal)
+    board = build_object(Trello::Board, _board_tid)
+    member = OpenStruct.new id: _member_tid
+    board.add_member(member, type)
+  end
+
+  def add_board_webhook(_board_tid, _callback_url)
+    webhook = @client.create(
+      :webhook,
+      description: 'Trellaw hook',
+      callback_url: _callback_url,
+      id_model: _board_tid
+    )
+
+    TrelloWebhook.new.tap { |tw| tw.tid = webhook.id }
+  end
+
+  def delete_webhook(_webhook_tid)
+    webhook = @client.find(:webhook, _webhook_tid)
+    webhook.delete
+  end
+
+  private
+
+  def get_board_member_ids(_board_tid)
+    board = build_object(Trello::Board, _board_tid)
+    board.members.map &:id
+  end
+
+  def build_object(_type, _id = nil)
+    _type.new(id: _id).tap { |obj| obj.client = @client }
+  end
 end

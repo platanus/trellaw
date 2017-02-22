@@ -16,6 +16,5 @@ RSpec.describe BoardLaw, type: :model do
     it { is_expected.to validate_presence_of(:law) }
     it { is_expected.to allow_value('dummy').for(:law) }
     it { is_expected.not_to allow_value('foo').for(:law) }
-    it { is_expected.to validate_presence_of(:list_tid) }
   end
 end

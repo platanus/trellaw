@@ -2,7 +2,7 @@ class BoardLaw < ActiveRecord::Base
   belongs_to :board
 
   validates :law, presence: true, existing_law: true
-  validates_presence_of :board, :list_tid
+  validates_presence_of :board
 end
 
 # == Schema Information

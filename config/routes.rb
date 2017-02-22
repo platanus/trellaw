@@ -6,8 +6,15 @@ Rails.application.routes.draw do
   devise_for :users
   devise_for :admin_users, ActiveAdmin::Devise.config
 
+  # User root, used by devise
+  get '/user_root', to: redirect('/boards'), as: :user_root
+
+  resources :boards, only: [:index, :show, :new, :create]
+
   get 'trello/connect'
   get 'trello/connected'
+  get 'trello/callback/:board_id' => 'trello#callback', as: :trello_callback
+  post 'trello/callback/:board_id' => 'trello#callback'
 
   scope path: '/api' do
     api_version(module: "Api::V1", path: { value: "v1" }) do

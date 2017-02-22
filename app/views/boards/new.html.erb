@@ -1,0 +1,8 @@
+<h1>Bind board</h1>
+
+<p>Are you sure you want to bind board <b><%= @trello_board.name %></b></p>
+
+<%= form_for @board do |f| %>
+  <%= f.hidden_field :board_tid %>
+  <%= f.submit %>
+<% end %>

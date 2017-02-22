@@ -1,0 +1,18 @@
+<h1>Boards</h1>
+
+<ul>
+<% @trello_boards.each do |board| %>
+  <% if matching_board = @boards.find { |b| b.board_tid == board.tid } %>
+  <li>
+    <b><%= board.name %></b>
+    <%= link_to 'Setup', board_path(matching_board) %>
+  </li>
+  <% else %>
+  <li>
+    <%= board.name %>
+    <%= link_to 'Bind', new_board_path(board_tid: board.tid) %>
+  </li>
+  <% end %>
+<% end %>
+</ul>
+

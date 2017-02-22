@@ -1,4 +1,6 @@
 class TrelloController < ApplicationController
+  skip_before_action :verify_authenticity_token, only: :callback
+
   def connect
     request_token = consumer.get_request_token(oauth_callback: trello_connected_url)
 
@@ -18,10 +20,17 @@ class TrelloController < ApplicationController
     )
 
     access_token = request_token.get_access_token oauth_verifier: params[:oauth_verifier]
+    current_user.update_attributes!(
+      trello_access_token: access_token.token,
+      trello_access_secret: access_token.secret
+    )
 
-    # TODO: store access token and secret in user
+    redirect_to user_root_path
+  end
 
-    render html: "#{access_token.token} - #{access_token.secret}"
+  def callback
+    # TODO
+    render html: ''
   end
 
   private

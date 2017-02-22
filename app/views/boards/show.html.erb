@@ -1,0 +1,7 @@
+<h1>Board: <%= @trello_board.name %></h1>
+
+<ul>
+ <% @trello_lists.each do |trello_list| %>
+   <li><%= trello_list.name %></li>
+ <% end %>
+</ul>

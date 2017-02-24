@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :board do
     user
-    board_tid "trelloid"
+    sequence(:board_tid) { |x| "board_#{x}" }
   end
 end

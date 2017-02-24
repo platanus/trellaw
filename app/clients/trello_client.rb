@@ -101,6 +101,15 @@ class TrelloClient
     end
   end
 
+  def get_list(_list_tid)
+    list = @client.find(:list, _list_tid)
+
+    TrelloList.new.tap do |trello_list|
+      trello_list.tid = list.id
+      trello_list.name = list.name
+    end
+  end
+
   private
 
   def get_board_member_ids(_board_tid)

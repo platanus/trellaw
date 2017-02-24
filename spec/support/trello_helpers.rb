@@ -36,6 +36,10 @@ module TrelloHelpers
       []
     end
 
+    def get_list(_list_tid)
+      nil
+    end
+
     private
 
     def gen_id

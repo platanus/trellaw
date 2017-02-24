@@ -1,8 +1,18 @@
 class BoardLaw < ActiveRecord::Base
+  serialize :settings
+
   belongs_to :board
 
   validates :law, presence: true, existing_law: true
   validates_presence_of :board
+  validate :settings_valid_for_selected_law, if: 'errors.empty?'
+
+  private
+
+  def settings_valid_for_selected_law
+    error = LawService.new(law_name: law).get_settings_error(settings)
+    errors.add(:settings, error) if error.present?
+  end
 end
 
 # == Schema Information
@@ -15,6 +25,7 @@ end
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  law        :string
+#  settings   :text
 #
 # Indexes
 #

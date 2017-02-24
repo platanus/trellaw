@@ -40,6 +40,10 @@ module TrelloHelpers
       nil
     end
 
+    def get_cards(*_args)
+      []
+    end
+
     private
 
     def gen_id

@@ -110,6 +110,27 @@ class TrelloClient
     end
   end
 
+  def get_cards(board_tid: nil, list_tid: nil, properties: [])
+    endpoint = board_tid.present? ? "/boards/#{board_tid}" : "/lists/#{list_tid}"
+
+    # TODO: Cache cards
+    # TODO: support more than 1000 cards
+    cards = @client.find_many(Trello::Card, "#{endpoint}/cards/?filter=visible")
+    trello_cards = cards.map do |card|
+      TrelloCard.new.tap do |trello_card|
+        trello_card.tid = card.id
+        trello_card.list_tid = card.list_id
+        trello_card.member_tids = card.member_ids
+        trello_card.name = card.name
+        trello_card.description = card.desc
+      end
+    end
+
+    add_cards_history(endpoint, trello_cards) if properties.include? 'history'
+
+    trello_cards
+  end
+
   private
 
   def get_board_member_ids(_board_tid)
@@ -119,5 +140,11 @@ class TrelloClient
 
   def build_object(_type, _id = nil)
     _type.new(id: _id).tap { |obj| obj.client = @client }
+  end
+
+  def add_cards_history(_endpoint, _trello_cards)
+    # TODO: Cache card movements
+    # TODO: use resque or something else to cache card movements.
+    # actions = @client.find_many(Trello::Card, "#{_endpoint}/actions/?filter=createCard,updateCard:idList&limit=1000&entities=false")
   end
 end

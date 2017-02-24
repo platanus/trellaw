@@ -41,4 +41,28 @@ describe LawService do
       expect(build(law_name: 'dummy').get_settings_error('foo' => 'bar')).to eq 'qux'
     end
   end
+
+  describe '#required_card_properties' do
+    it "returns an empty array if law does not implement 'required_card_properties'" do
+      expect(build(law_name: 'empty_dummy').required_card_properties({})).to eq []
+    end
+
+    it "returns the result of calling the law's .required_card_properties" do
+      expect(DummyLaw).to receive(:required_card_properties).with(foo: 'bar').and_return [:qux]
+      expect(build(law_name: 'dummy').required_card_properties('foo' => 'bar')).to eq [:qux]
+    end
+  end
+
+  describe '#check_violations' do
+    it "returns the result of calling the law's .check_violations and sets each violation law" do
+      expect(DummyLaw).to receive(:check_violations).with({ foo: 'bar' }, []).and_return []
+      expect(build(law_name: 'dummy').check_violations({ 'foo' => 'bar' }, [])).to eq []
+    end
+
+    it "sets the returned violations 'law' property to the current law name" do
+      allow(DummyLaw).to receive(:check_violations).and_return [DetectedViolation.new]
+      violations = build(law_name: 'dummy').check_violations(nil, [])
+      expect(violations.first.law).to eq 'dummy'
+    end
+  end
 end

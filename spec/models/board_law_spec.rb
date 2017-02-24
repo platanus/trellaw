@@ -17,6 +17,7 @@ RSpec.describe BoardLaw, type: :model do
     it { is_expected.to validate_uniqueness_of(:law).scoped_to(:board_id, :list_tid) }
     it { is_expected.to allow_value('dummy').for(:law) }
     it { is_expected.not_to allow_value('foo').for(:law) }
+    it { is_expected.to allow_value(nil).for(:list_tid) }
 
     it "marks settings as valid if LawService.get_settings_error returns nil" do
       allow_any_instance_of(LawService).to receive(:get_settings_error).and_return nil

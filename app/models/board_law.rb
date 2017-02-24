@@ -22,7 +22,7 @@ end
 #
 #  id         :integer          not null, primary key
 #  board_id   :integer
-#  list_tid   :string           not null
+#  list_tid   :string
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  law        :string

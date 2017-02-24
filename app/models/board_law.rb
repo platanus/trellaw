@@ -6,6 +6,7 @@ class BoardLaw < ActiveRecord::Base
   validates :law, presence: true, existing_law: true
   validates_presence_of :board
   validate :settings_valid_for_selected_law, if: 'errors.empty?'
+  validates_uniqueness_of :law, scope: [:board_id, :list_tid]
 
   private
 

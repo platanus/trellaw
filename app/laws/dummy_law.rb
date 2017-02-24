@@ -1,2 +1,0 @@
-class DummyLaw
-end

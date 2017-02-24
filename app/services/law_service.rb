@@ -6,6 +6,22 @@ class LawService < PowerTypes::Service.new(:law_name)
     false
   end
 
+  def name
+    @law_name
+  end
+
+  def description
+    return law_class.description if law_class.respond_to? :description
+    @law_name.humanize
+  end
+
+  def get_settings_error(_settings)
+    _settings = {} if _settings.nil?
+    return 'not a hash' unless _settings.is_a? Hash
+    return nil unless law_class.respond_to? :get_settings_error
+    law_class.get_settings_error _settings.symbolize_keys
+  end
+
   def law_class
     @law_class ||= law_class_name.constantize
   end

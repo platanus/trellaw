@@ -4,6 +4,7 @@ class Board < ActiveRecord::Base
   has_many :violations, inverse_of: :board
 
   validates_presence_of :user, :board_tid
+  validates_uniqueness_of :board_tid
 end
 
 # == Schema Information

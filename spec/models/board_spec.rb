@@ -16,5 +16,6 @@ RSpec.describe Board, type: :model do
   describe 'validations' do
     it { is_expected.to validate_presence_of(:user) }
     it { is_expected.to validate_presence_of(:board_tid) }
+    it { is_expected.to validate_uniqueness_of(:board_tid) }
   end
 end

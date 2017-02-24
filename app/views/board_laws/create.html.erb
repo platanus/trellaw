@@ -1,0 +1,9 @@
+<h1>Law activation failed!</h1>
+
+<ul>
+<% @board_law.errors.each do |attr, msg| %>
+<li><%= "#{attr} #{msg}" %></li>
+<% end %>
+</ul>
+
+<button onclick="window.history.back();">Go Back</button>

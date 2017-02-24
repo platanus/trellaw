@@ -25,8 +25,10 @@ class BoardsController < ApplicationController
 
   def show
     @board = current_user.boards.find params[:id]
+    @board_laws = @board.board_laws.all
     @trello_board = trello_client.get_board(@board.board_tid)
     @trello_lists = trello_client.get_lists(@board.board_tid)
+    @all_laws = LawUtils.active_laws
   end
 
   private

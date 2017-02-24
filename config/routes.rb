@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   get '/user_root', to: redirect('/boards'), as: :user_root
 
   resources :boards, only: [:index, :show, :new, :create]
+  resources :board_laws, only: [:new, :create]
 
   get 'trello/connect'
   get 'trello/connected'

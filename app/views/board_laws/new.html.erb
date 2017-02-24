@@ -1,0 +1,20 @@
+<h1>Activate a law</h1>
+
+<p>Activate <b><%= @law.description %></b> on <b><%= @trello_list.try(:name) || 'Every list' %></b></p>
+
+<%= form_for @board_law do |f| %>
+  <%= f.hidden_field :board_id %>
+  <%= f.hidden_field :law %>
+  <%= f.hidden_field :list_tid %>
+
+  <% case @law.name
+     when 'member_limit' %>
+    <%= f.fields_for :settings do |ff| %>
+      Limit: <%= ff.number_field :limit %>
+    <% end %>
+  <% end %>
+
+  <br>
+
+  <%= f.submit %>
+<% end %>

@@ -9,7 +9,10 @@ Rails.application.routes.draw do
   # User root, used by devise
   get '/user_root', to: redirect('/boards'), as: :user_root
 
-  resources :boards, only: [:index, :show, :new, :create]
+  resources :boards, only: [:index, :show, :new, :create] do
+    get 'update_violations', on: :member
+  end
+
   resources :board_laws, only: [:new, :create]
 
   get 'trello/connect'

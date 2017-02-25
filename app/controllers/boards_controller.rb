@@ -31,6 +31,14 @@ class BoardsController < ApplicationController
     @all_laws = LawUtils.active_laws
   end
 
+  def update_violations
+    @board = current_user.boards.find params[:id]
+
+    UpdateViolations.for board: @board
+
+    redirect_to board_path @board
+  end
+
   private
 
   def trello_client

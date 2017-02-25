@@ -1,5 +1,9 @@
 <h1>Board: <%= @trello_board.name %></h1>
 
+<p>
+  <%= link_to 'Update Violations', update_violations_board_path(@board) %>
+</p>
+
 <ul>
   <% @trello_lists.each do |trello_list| %>
   <li>

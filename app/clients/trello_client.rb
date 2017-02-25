@@ -131,6 +131,26 @@ class TrelloClient
     trello_cards
   end
 
+  def add_card_comment(_card_tid, _comment)
+    response = @client.post("/cards/#{_card_tid}/actions/comments", text: _comment)
+    comment = Trello::Comment.parse response
+
+    TrelloComment.new.tap do |trello_comment|
+      trello_comment.tid = comment.action_id
+      trello_comment.text = comment.text
+    end
+  end
+
+  def edit_card_comment(_comment_tid, _comment)
+    response = @client.put("/actions/#{_comment_tid}", text: _comment)
+    comment = Trello::Comment.parse response
+
+    TrelloComment.new.tap do |trello_comment|
+      trello_comment.tid = comment.action_id
+      trello_comment.text = comment.text
+    end
+  end
+
   private
 
   def get_board_member_ids(_board_tid)

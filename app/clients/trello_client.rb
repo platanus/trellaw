@@ -115,7 +115,7 @@ class TrelloClient
 
     # TODO: Cache cards
     # TODO: support more than 1000 cards
-    cards = @client.find_many(Trello::Card, "#{endpoint}/cards/?filter=visible")
+    cards = @client.find_many(Trello::Card, "#{endpoint}/cards")
     trello_cards = cards.map do |card|
       TrelloCard.new.tap do |trello_card|
         trello_card.tid = card.id

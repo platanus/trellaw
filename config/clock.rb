@@ -6,9 +6,8 @@ module Clockwork
   error_handler do |error|
     Raven.capture_exception(error)
   end
-  # Example
-  #
-  # every(5.minutes, 'ScheduledJob') do
-  #   ScheduledJob.perform_later
-  # end
+
+  every(30.minutes, 'UpdateAllBoardViolationsJob') do
+    UpdateAllBoardsViolationsJob.perform_later
+  end
 end

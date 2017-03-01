@@ -1,4 +1,4 @@
-# Trellaw [![Circle CI](https://circleci.com/gh/platanus/trellaw.svg?style=svg)](https://circleci.com/gh/platanus/trellaw)
+# Trellaw [![CircleCI](https://circleci.com/gh/platanus/trellaw.svg?style=svg&circle-token=a7f68a01e7388b120977e412fce7847f7eacdd66)](https://circleci.com/gh/platanus/trellaw)
 This is a Rails application, initially generated using [Potassium](https://github.com/platanus/potassium) by Platanus.
 
 ## Local installation

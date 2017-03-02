@@ -9,6 +9,6 @@ RSpec.describe UpdateBoardViolationsJob, type: :job do
     UpdateBoardViolationsJob.perform_later(board)
 
     expect(UpdateViolations).to have_received(:for)
-      .with(board)
+      .with(board: board)
   end
 end

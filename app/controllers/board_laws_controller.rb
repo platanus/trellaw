@@ -27,10 +27,7 @@ class BoardLawsController < ApplicationController
   def create_params
     params.require(:board_law).permit(:board_id, :law, :list_tid).tap do |cp|
       cp[:board] = current_user.boards.find cp.delete :board_id
-      cp[:settings] = params[:board_law][:settings] # we need all settings
-
-      # some parameter transformations (only necesary until we implement the json api)
-      cp[:settings][:limit] = cp[:settings][:limit].to_i if cp[:settings].key? :limit
+      cp[:settings] = YAML.load(params[:board_law][:settings]).symbolize_keys
     end
   end
 end

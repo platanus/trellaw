@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+gem 'rails', '4.2.5.2'
+
 gem 'active_model_serializers', '~> 0.9.3'
 gem 'active_skin'
 gem 'activeadmin', github: 'activeadmin'
@@ -17,7 +19,6 @@ gem 'jquery-rails'
 gem 'pg'
 gem 'puma'
 gem 'rack-cors', '~> 0.4.0'
-gem 'rails', '4.2.5.2'
 gem 'rails-i18n'
 gem 'recipient_interceptor'
 gem 'responders'
@@ -47,6 +48,8 @@ group :development do
 end
 
 group :development, :test do
+  gem 'better_errors'
+  gem 'binding_of_caller'
   gem 'dotenv-rails'
   gem 'factory_girl_rails'
   gem 'faker'

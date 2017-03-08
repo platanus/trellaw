@@ -25,8 +25,8 @@ describe ApplyViolations do
   end
 
   it "performs the AddCardCommentJob if detected violation provides a comment" do
-    expect(AddCardCommentJob).to receive(:perform_later).with(instance_of(Violation), comment).once
     perform
+    expect(AddCardCommentJob).to have_been_enqueued.with(Violation.last, comment).exactly(:once)
   end
 
   context "when there are some active violations" do
@@ -43,8 +43,8 @@ describe ApplyViolations do
     end
 
     it "performs RemoveCardCommentJob on each commented and undetected violation" do
-      expect(RemoveCardCommentJob).to receive(:perform_later).with(active_3).once
       perform
+      expect(RemoveCardCommentJob).to have_been_enqueued.with(active_3).exactly(:once)
     end
   end
 end

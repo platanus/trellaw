@@ -16,11 +16,23 @@ describe UpdateViolations do
   end
 
   before do
-    allow(client).to receive(:get_cards).with(list_tid: 'tid_1', properties: [])
+    allow(client).to receive(:get_list_cards).with('tid_1', properties: [])
       .and_return([card_1])
 
-    allow(client).to receive(:get_cards).with(list_tid: 'tid_2', properties: [])
+    allow(client).to receive(:get_list_cards).with('tid_2', properties: [])
       .and_return([card_2, card_3])
+  end
+
+  it "calls get_list_cards for each list, passing each law's required properties" do
+    allow(DummyLaw).to receive(:required_card_properties).and_return [:foo], [:bar]
+
+    expect(client).to receive(:get_list_cards).with('tid_1', properties: [:foo])
+      .and_return([])
+
+    expect(client).to receive(:get_list_cards).with('tid_2', properties: [:bar])
+      .and_return([])
+
+    perform
   end
 
   it "calls check_violations for each law" do
@@ -56,7 +68,7 @@ describe UpdateViolations do
     let!(:card_4) { build(:trello_card) }
 
     before do
-      allow(client).to receive(:get_cards).with(list_tid: 'tid_3', properties: [])
+      allow(client).to receive(:get_list_cards).with('tid_3', properties: [])
         .and_return([card_4])
 
       allow(client).to receive(:get_lists).with(board.board_tid)

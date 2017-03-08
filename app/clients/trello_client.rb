@@ -110,25 +110,18 @@ class TrelloClient
     end
   end
 
-  def get_cards(board_tid: nil, list_tid: nil, properties: [])
-    endpoint = board_tid.present? ? "/boards/#{board_tid}" : "/lists/#{list_tid}"
+  def get_list_cards(_list_tid, properties: [])
+    fields = ['name', 'desc', 'idList', 'idMembers']
+    actions = ['createCard']
 
-    # TODO: Cache cards
-    # TODO: support more than 1000 cards
-    cards = @client.find_many(Trello::Card, "#{endpoint}/cards")
-    trello_cards = cards.map do |card|
-      TrelloCard.new.tap do |trello_card|
-        trello_card.tid = card.id
-        trello_card.list_tid = card.list_id
-        trello_card.member_tids = card.member_ids
-        trello_card.name = card.name
-        trello_card.description = card.desc
-      end
-    end
+    actions << 'updateCard:idList' if properties.include? :movement
 
-    add_cards_history(endpoint, trello_cards) if properties.include? 'history'
+    url = "/lists/#{_list_tid}/cards?fields=#{fields.join(',')}&actions=#{actions.join(',')}"
 
-    trello_cards
+    # TODO: cache card information?
+    response = @client.get url
+    json_cards = JSON.load response.body
+    json_cards.map { |c| parse_trello_card(c, properties) }
   end
 
   def add_card_comment(_card_tid, _comment)
@@ -155,16 +148,31 @@ class TrelloClient
 
   def get_board_member_ids(_board_tid)
     board = build_object(Trello::Board, _board_tid)
-    board.members.map &:id
+    board.members.map(&:id)
   end
 
   def build_object(_type, _id = nil)
     _type.new(id: _id).tap { |obj| obj.client = @client }
   end
 
-  def add_cards_history(_endpoint, _trello_cards)
-    # TODO: Cache card movements
-    # TODO: use resque or something else to cache card movements.
-    # actions = @client.find_many(Trello::Card, "#{_endpoint}/actions/?filter=createCard,updateCard:idList&limit=1000&entities=false")
+  def parse_trello_card(_json, _properties) # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
+    TrelloCard.new.tap do |trello_card|
+      trello_card.tid = _json['id']
+      trello_card.name = _json['name']
+      trello_card.list_tid = _json['idList']
+      trello_card.member_tids = _json['idMembers']
+      trello_card.description = _json['desc']
+
+      creation_action = _json['actions'].find { |a| a['type'] == 'createCard' }
+      trello_card.created_at = Time.parse creation_action['date']
+      trello_card.created_by_tid = creation_action['idMemberCreator']
+
+      if _properties.include? :movement
+        move_action = _json['actions'].find { |a| a['type'] == 'updateCard' }
+        move_action ||= creation_action
+        trello_card.added_at = Time.parse move_action['date']
+        trello_card.added_by_tid = move_action['idMemberCreator']
+      end
+    end
   end
 end

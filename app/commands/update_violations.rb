@@ -3,8 +3,8 @@ class UpdateViolations < PowerTypes::Command.new(:board, dry_run: false)
     affected_lists.each do |list_tid|
       laws = laws_for_list(list_tid)
 
-      cards = trello_client.get_cards(
-        list_tid: list_tid,
+      cards = trello_client.get_list_cards(
+        list_tid,
         properties: laws.map(&:required_card_properties).flatten.uniq
       )
 

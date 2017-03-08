@@ -40,7 +40,7 @@ module TrelloHelpers
       nil
     end
 
-    def get_cards(*_args)
+    def get_list_cards(*)
       []
     end
 

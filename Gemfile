@@ -13,7 +13,6 @@ gem 'coffee-rails', '~> 4.1.0'
 gem 'delayed_job_active_record'
 gem 'devise'
 gem 'devise-i18n'
-gem 'heroku-stage'
 gem 'jbuilder', '~> 2.0'
 gem 'jquery-rails'
 gem 'pg'
@@ -33,6 +32,7 @@ gem 'ruby-trello'
 gem 'power-types'
 
 group :production do
+  gem 'heroku-stage'
   gem 'rack-timeout'
   gem 'rails_stdout_logging'
 end

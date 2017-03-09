@@ -1,8 +1,6 @@
 require 'rails_helper'
 
 describe ApplyViolations do
-  disable_jobs AddCardCommentJob, RemoveCardCommentJob
-
   let(:board) { create(:board) }
   let(:comment) { 'im am the law!' }
 

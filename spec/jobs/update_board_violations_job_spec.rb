@@ -6,7 +6,7 @@ RSpec.describe UpdateBoardViolationsJob, type: :job do
   it "calls UpdateViolations commad for the board" do
     allow(UpdateViolations).to receive(:for)
 
-    UpdateBoardViolationsJob.perform_later(board)
+    UpdateBoardViolationsJob.perform_now(board)
 
     expect(UpdateViolations).to have_received(:for)
       .with(board: board)

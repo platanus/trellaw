@@ -9,15 +9,10 @@ RSpec.describe UpdateAllBoardsViolationsJob, type: :job do
       .and_yield(boards[1])
       .and_yield(boards[2])
 
-    allow(UpdateBoardViolationsJob).to receive(:perform_later)
+    UpdateAllBoardsViolationsJob.perform_now
 
-    UpdateAllBoardsViolationsJob.perform_later
-
-    expect(UpdateBoardViolationsJob).to have_received(:perform_later)
-      .with(boards[0]).ordered
-    expect(UpdateBoardViolationsJob).to have_received(:perform_later)
-      .with(boards[1]).ordered
-    expect(UpdateBoardViolationsJob).to have_received(:perform_later)
-      .with(boards[2]).ordered
+    expect(UpdateBoardViolationsJob).to have_been_enqueued.with(boards[0])
+    expect(UpdateBoardViolationsJob).to have_been_enqueued.with(boards[1])
+    expect(UpdateBoardViolationsJob).to have_been_enqueued.with(boards[2])
   end
 end

@@ -20,4 +20,13 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  hello: 'Hello world'
+  laws:
+    member_limit:
+      violations:
+        max_members_one: Epa! Don\'t add more than 1 cuate for cards in this list my friend, yes?
+        max_members_many: "Epa! Don\'t add more than %{limit} cuates for cards in this list my friend, yes?"
+    max_days_on_list:
+      violations:
+        max_days_one: Epa! Don\'t keep this card on this list for more than one day
+        max_days_many: "Epa! Don\'t keep this card on this list for more than %{days} days"

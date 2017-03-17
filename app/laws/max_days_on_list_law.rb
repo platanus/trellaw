@@ -21,8 +21,13 @@ class MaxDaysOnListLaw < LawBase
       add_violation(
         _card,
         'max_days',
-        comment: "Epa! Don\'t keep this card on this list for more than #{settings[:days]} days"
+        comment: comment
       )
     end
+  end
+
+  def comment
+    return I18n.t 'laws.max_days_on_list.violations.max_days_one' if settings[:days] == 1
+    I18n.t('laws.max_days_on_list.violations.max_days_many', days: settings[:days])
   end
 end

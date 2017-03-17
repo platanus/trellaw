@@ -15,8 +15,15 @@ class MemberLimitLaw < LawBase
       add_violation(
         _card,
         'max_members',
-        comment: 'Epa! Don\'t add more than 1 cuate for cards in this list my friend, yes?'
+        comment: comment
       )
     end
+  end
+
+  private
+
+  def comment
+    return I18n.t 'laws.member_limit.violations.max_members_one' if settings[:limit] == 1
+    I18n.t('laws.member_limit.violations.max_members_many', limit: settings[:limit])
   end
 end

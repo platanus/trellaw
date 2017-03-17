@@ -20,8 +20,11 @@ Rails.application.routes.draw do
   get 'trello/callback/:board_id' => 'trello#callback', as: :trello_callback
   post 'trello/callback/:board_id' => 'trello#callback'
 
-  scope path: '/api' do
+  scope path: '/api', defaults: { format: 'json' } do
     api_version(module: "Api::V1", path: { value: "v1" }) do
+      resources :cards, only: [] do
+        resources :violations, only: [:index]
+      end
     end
   end
 

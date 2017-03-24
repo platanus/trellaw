@@ -1,4 +1,4 @@
-class Violation < ActiveRecord::Base
+class Violation < ApplicationRecord
   belongs_to :board
 
   validates :law, presence: true, existing_law: true

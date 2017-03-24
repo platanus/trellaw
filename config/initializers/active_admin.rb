@@ -1,5 +1,5 @@
 class CustomFooter < ActiveAdmin::Component
-  def build
+  def build(_arg)
     super(id: "footer")
     para "Powered by Platanus"
   end

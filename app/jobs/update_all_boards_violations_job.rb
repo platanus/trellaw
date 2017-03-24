@@ -1,4 +1,4 @@
-class UpdateAllBoardsViolationsJob < ActiveJob::Base
+class UpdateAllBoardsViolationsJob < ApplicationJob
   queue_as :default
 
   def perform

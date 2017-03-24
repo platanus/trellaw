@@ -1,4 +1,4 @@
-class AddCardCommentJob < ActiveJob::Base
+class AddCardCommentJob < ApplicationJob
   queue_as :default
 
   def perform(_violation, _comment)

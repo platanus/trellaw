@@ -6,7 +6,7 @@ RSpec.describe Api::V1::ViolationsController do
     let!(:finishined_violation) { create(:finished_violation, card_tid: 1) }
 
     before do
-      get(:index, card_id: 1, format: 'json')
+      get(:index, params: { card_id: 1, format: 'json'})
     end
 
     it 'filter violations by card' do
@@ -15,11 +15,14 @@ RSpec.describe Api::V1::ViolationsController do
 
     it 'respond with violation json object' do
       json_response = JSON.load response.body
-      serialized_violations = { "violations" => [{
-          "id" => violation.id,
-          "law" => violation.law,
-          "violation" => violation.violation,
-        }]
+      serialized_violations = {
+        "violations" => [
+          {
+            "id" => violation.id,
+            "law" => violation.law,
+            "violation" => violation.violation,
+          }
+        ]
       }
 
       expect(json_response).to eq(serialized_violations)

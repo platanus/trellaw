@@ -13,10 +13,17 @@
 
 # Ignore all logfiles and tempfiles.
 /log/*
+/tmp/*
 !/log/.keep
-/tmp
+!/tmp/.keep
+
+/node_modules
+/yarn-error.log
+
+.byebug_history
 .rubocop.yml
 .eslintrc.json
 .sscs-lint.yml
 .env.local
 .env
+/public/system/*

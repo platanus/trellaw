@@ -1,4 +1,4 @@
-class BoardLaw < ActiveRecord::Base
+class BoardLaw < ApplicationRecord
   serialize :settings
 
   belongs_to :board

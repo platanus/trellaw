@@ -8,3 +8,7 @@ es-CL:
       violations:
         max_days_one: Esta tarjeta no debe permanecer más de 1 día en esta lista
         max_days_many: "Esta tarjeta no debe permanecer más de %{days} días en esta lista"
+    card_limit:
+      violations:
+        max_cards_one: No debe haber más de una tarjeta en esta lista
+        max_cards_many: "No deben haber más de %{limit} tarjetas en esta lista"

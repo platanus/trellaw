@@ -17,7 +17,6 @@
 !/log/.keep
 !/tmp/.keep
 
-/node_modules
 /yarn-error.log
 
 .byebug_history
@@ -27,3 +26,5 @@
 .env.local
 .env
 /public/system/*
+/public/packs
+/node_modules

@@ -1,6 +1,6 @@
 class CardLimitLaw < LawBase
   def self.description
-    'Max Cards'
+    'Maximum number of cards a list can have'
   end
 
   def self.get_settings_error(_settings)

@@ -1,6 +1,6 @@
 class MaxDaysOnListLaw < LawBase
   def self.description
-    'Maximum number days a card can be on this list'
+    'Maximum number of days a card can be on this list'
   end
 
   def self.get_settings_error(_settings)

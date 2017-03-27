@@ -1,6 +1,6 @@
 class MemberLimitLaw < LawBase
   def self.description
-    'Max Members'
+    'Maximum number of members a card on this list can have'
   end
 
   def self.get_settings_error(_settings)

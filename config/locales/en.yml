@@ -30,3 +30,7 @@ en:
       violations:
         max_days_one: Epa! Don\'t keep this card on this list for more than one day
         max_days_many: "Epa! Don\'t keep this card on this list for more than %{days} days"
+    card_limit:
+      violations:
+        max_cards_one: Epa, amigo! Don\'t add more than a card on this list, ok?
+        max_cards_many: "Epa! no more than %{limit} cards are allowed on this list"

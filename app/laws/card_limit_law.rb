@@ -1,6 +1,6 @@
-class MemberLimitLaw < LawBase
+class CardLimitLaw < LawBase
   def self.description
-    'Maximum number of members a card on this list can have'
+    'Maximum number of cards a list can have'
   end
 
   def self.get_settings_error(_settings)
@@ -10,11 +10,11 @@ class MemberLimitLaw < LawBase
     nil
   end
 
-  def check_card_violations(_card)
-    if _card.member_tids.count > settings[:limit]
+  def check_violations(_list)
+    if _list.count > settings[:limit]
       add_violation(
-        _card,
-        'max_members',
+        _list.last,
+        'max_cards',
         comment: comment
       )
     end
@@ -23,7 +23,7 @@ class MemberLimitLaw < LawBase
   private
 
   def comment
-    return I18n.t 'laws.member_limit.violations.max_members_one' if settings[:limit] == 1
-    I18n.t('laws.member_limit.violations.max_members_many', limit: settings[:limit])
+    return I18n.t 'laws.card_limit.violations.max_cards_one' if settings[:limit] == 1
+    I18n.t('laws.card_limit.violations.max_cards_many', limit: settings[:limit])
   end
 end

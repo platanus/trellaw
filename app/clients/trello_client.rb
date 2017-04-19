@@ -164,8 +164,10 @@ class TrelloClient
       trello_card.description = _json['desc']
 
       creation_action = _json['actions'].find { |a| a['type'] == 'createCard' }
-      trello_card.created_at = Time.parse creation_action['date']
-      trello_card.created_by_tid = creation_action['idMemberCreator']
+      trello_card.created_at =
+        creation_action.present? ? Time.parse(creation_action['date']) : nil
+      trello_card.created_by_tid =
+        creation_action.present? ? creation_action['idMemberCreator'] : nil
 
       if _properties.include? :movement
         move_action = _json['actions'].find { |a| a['type'] == 'updateCard' }

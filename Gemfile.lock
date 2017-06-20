@@ -91,9 +91,6 @@ GEM
       thor (~> 0.19)
     builder (3.2.3)
     byebug (9.0.6)
-    clockwork (2.0.2)
-      activesupport
-      tzinfo
     coderay (1.1.1)
     coffee-rails (4.2.2)
       coffee-script (>= 2.2.0)
@@ -121,6 +118,8 @@ GEM
       railties (>= 3.2, < 5.2)
     erubi (1.6.0)
     erubis (2.7.0)
+    et-orbi (1.0.3)
+      tzinfo
     execjs (2.7.0)
     factory_girl (4.8.0)
       activesupport (>= 3.0.0)
@@ -326,6 +325,8 @@ GEM
       oauth (>= 0.4.5)
       rest-client (>= 1.8.0)
     ruby_dep (1.5.0)
+    rufus-scheduler (3.4.0)
+      et-orbi (~> 1.0)
     sass (3.4.24)
     sass-rails (5.0.6)
       railties (>= 4.0.0, < 6)
@@ -345,6 +346,11 @@ GEM
       connection_pool (~> 2.2, >= 2.2.0)
       rack-protection (>= 1.5.0)
       redis (~> 3.3, >= 3.3.3)
+    sidekiq-scheduler (2.1.4)
+      redis (~> 3)
+      rufus-scheduler (~> 3.2)
+      sidekiq (>= 3)
+      tilt (>= 1.4.0)
     simple_token_authentication (1.15.1)
       actionmailer (>= 3.2.6, < 6)
       actionpack (>= 3.2.6, < 6)
@@ -406,7 +412,6 @@ DEPENDENCIES
   aws-sdk-rails
   better_errors
   binding_of_caller
-  clockwork
   coffee-rails (~> 4.2)
   devise
   devise-i18n
@@ -439,6 +444,7 @@ DEPENDENCIES
   sentry-raven
   shoulda-matchers
   sidekiq
+  sidekiq-scheduler
   simple_token_authentication (~> 1.0)
   spring
   turbolinks (~> 5)

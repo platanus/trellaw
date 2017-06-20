@@ -86,7 +86,7 @@ We are using the great [Devise](https://github.com/plataformatec/devise) library
 
 ### Queue System
 
-For managing tasks in the background, this project uses [DelayedJob](https://github.com/collectiveidea/delayed_job)
+For managing tasks in the background, this project uses [Sidekiq](https://github.com/mperham/sidekiq)
 
 ### Error Reporting
 

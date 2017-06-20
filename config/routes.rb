@@ -6,6 +6,8 @@ Rails.application.routes.draw do
   devise_for :users
   devise_for :admin_users, ActiveAdmin::Devise.config
 
+  mount Sidekiq::Web => '/queue'
+
   # User root, used by devise
   get '/user_root', to: redirect('/boards'), as: :user_root
 

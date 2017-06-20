@@ -1,5 +1,6 @@
 require 'sidekiq'
 require 'sidekiq/web'
+require 'sidekiq-scheduler/web'
 
 redis_config = Rails.application.config_for(:redis)
 

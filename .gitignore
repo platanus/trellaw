@@ -20,9 +20,6 @@
 /yarn-error.log
 
 .byebug_history
-.rubocop.yml
-.eslintrc.json
-.sscs-lint.yml
 .env.local
 .env
 /public/system/*

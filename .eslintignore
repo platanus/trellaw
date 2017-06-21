@@ -1,0 +1,5 @@
+/config/webpack
+/app/assets/config
+/app/assets/javascripts/cable.js
+
+/public

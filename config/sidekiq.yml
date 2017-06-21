@@ -1,0 +1,7 @@
+:concurrency: <%= ENV.fetch('SIDEKIQ_CONCURRENCY', 20) %>
+:queues:
+  - default
+:schedule:
+  update_boards_violations:
+    cron: "*/5 * * * *"
+    class: UpdateAllBoardsViolationsJob

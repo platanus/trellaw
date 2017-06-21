@@ -1,4 +1,4 @@
-class UpdateBoardViolationsJob < ActiveJob::Base
+class UpdateBoardViolationsJob < ApplicationJob
   queue_as :default
 
   def perform(board)

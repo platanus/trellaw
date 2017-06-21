@@ -10,11 +10,11 @@ set -e
 gem install bundler --conservative
 bundle check || bundle install
 
-# Install bower dependencies
-bower install
+# Install node dependencies
+bin/yarn
 
 # Set up database
-bin/rake db:setup
+bin/rails db:setup
 
 # Add binstubs to PATH via export PATH=".git/safe/../../bin:$PATH" in ~/.zshenv
 mkdir -p .git/safe

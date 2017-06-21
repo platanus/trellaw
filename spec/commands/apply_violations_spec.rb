@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 describe ApplyViolations do
+  include ActiveJob::TestHelper
+
   let(:board) { create(:board) }
   let(:comment) { 'im am the law!' }
 

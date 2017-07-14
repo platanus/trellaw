@@ -8,6 +8,8 @@ Rails.application.routes.draw do
 
   mount Sidekiq::Web => '/queue'
 
+  get '/app' => 'app#index'
+
   # User root, used by devise
   get '/user_root', to: redirect('/boards'), as: :user_root
 

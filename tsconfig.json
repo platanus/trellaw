@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "declaration": false,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "lib": ["dom", "es6"],
+    "module": "es6",
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "target": "es5"
+  },
+  "exclude": ["**/*.spec.ts", "node_modules", "public"],
+  "compileOnSave": false
+}

@@ -4,6 +4,7 @@ module.exports = {
   options: {
     extractCSS: true,
     loaders: {
+      ts: 'ts-loader!tslint-loader',
       js: 'babel-loader',
       file: 'file-loader',
       scss: 'vue-style-loader!css-loader!postcss-loader!sass-loader',

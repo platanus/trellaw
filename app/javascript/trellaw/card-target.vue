@@ -4,15 +4,15 @@
   </div>
 </template>
 
-<script>
-import add from '../trellaw/images/add.svg'
+<script lang="ts">
+import Vue from 'vue';
+import Component from 'vue-class-component';
 
-export default {
-  data() {
-    return {
-      add,
-    }
-  }
+import add from '../trellaw/images/add.svg';
+
+@Component
+export default class CardTarget extends Vue {
+  public add: string = add;
 }
 </script>
 

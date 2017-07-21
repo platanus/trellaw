@@ -5,16 +5,20 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from 'vue';
+import Component from 'vue-class-component';
+
 import appHeader from '../trellaw/app-header.vue';
 import board from '../trellaw/board.vue';
 
-export default {
-  components: {
+@Component({
+    components: {
     appHeader,
     board,
   },
-}
+})
+export default class App extends Vue {}
 </script>
 
 <style lang="scss">

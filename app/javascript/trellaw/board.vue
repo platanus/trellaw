@@ -8,14 +8,18 @@
   </div>
 </template>
 
-<script>
-import list from './list';
+<script lang="ts">
+import Vue from 'vue';
+import Component from 'vue-class-component';
 
-export default {
+import list from './list.vue';
+
+@Component({
   components: {
     list,
-  }
-}
+  },
+})
+export default class Board extends Vue { }
 </script>
 
 

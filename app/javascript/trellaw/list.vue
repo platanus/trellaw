@@ -9,24 +9,26 @@
   </div>
 </template>
 
-<script>
-import card from './card';
-import cardTarget from './card-target';
+<script lang="ts">
+import Vue from 'vue';
+import Component from 'vue-class-component';
 
-export default {
+import card from './card.vue';
+import cardTarget from './card-target.vue';
+
+@Component({
   components: {
     card,
   },
   props: {
     title: {
       default: 'Título',
-    }
+    },
   },
-  data() {
-    return {
-      dropTarget: cardTarget,
-    }
-  }
+})
+export default class List extends Vue {
+  public dropTarget: Vue.Component = cardTarget;
+  public title: string;
 }
 </script>
 

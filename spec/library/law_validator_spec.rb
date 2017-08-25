@@ -1,7 +1,8 @@
 require "rails_helper"
 
 describe LawValidator do
-  let(:integer_attr) { @attr = LawAttribute.new("limit", :integer, 1) }
+  let(:attr_name) { "my-attribute" }
+  let(:integer_attr) { @attr = LawAttribute.new(attr_name, :integer, 1) }
 
   describe "#initialize" do
     context "with valid params" do
@@ -19,7 +20,7 @@ describe LawValidator do
     end
 
     it "raises error with invalid rule" do
-      expect { described_class.new(integer_attr, :invalid) }.to raise_error("invalid rule")
+      expect { described_class.new(integer_attr, :invalid) }.to raise_error("invalid rule: invalid")
     end
   end
 
@@ -27,13 +28,28 @@ describe LawValidator do
     before { @validator = described_class.new(integer_attr, :required) }
 
     describe "#error_message" do
-      it { expect(@validator.error_message).to eq("limit is required") }
+      it { expect(@validator.error_message).to eq("#{attr_name} is required") }
     end
 
     describe "#validate" do
       it { expect(@validator.validate(nil)).to eq(false) }
       it { expect(@validator.validate("")).to eq(false) }
       it { expect(@validator.validate(1)).to eq(true) }
+    end
+  end
+
+  context "working with greater_than rule" do
+    let(:max) { 0 }
+    before { @validator = described_class.new(integer_attr, :greater_than, value: max) }
+
+    describe "#error_message" do
+      it { expect(@validator.error_message).to eq("#{attr_name} must be greater than #{max}") }
+    end
+
+    describe "#validate" do
+      it { expect(@validator.validate(max + 1)).to eq(true) }
+      it { expect(@validator.validate(max)).to eq(false) }
+      it { expect(@validator.validate(max - 1)).to eq(false) }
     end
   end
 end

@@ -1,5 +1,5 @@
 class LawValidator
-  VALID_RULES = %i{required}
+  VALID_RULES = %i{required greater_than}
 
   attr_accessor :law_attr, :rule, :options
 

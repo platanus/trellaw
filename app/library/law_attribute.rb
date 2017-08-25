@@ -14,7 +14,8 @@ class LawAttribute
     {
       name: name,
       attr_type: attr_type,
-      default: default
+      default: default,
+      validations: validators_to_params
     }
   end
 
@@ -24,5 +25,12 @@ class LawAttribute
     return :string if _attr_type.blank?
     fail "invalid attribute type" unless VALID_TYPES.include?(_attr_type)
     _attr_type
+  end
+
+  def validators_to_params
+    validators.inject({}) do |memo, validator|
+      memo[validator.rule] = validator.options
+      memo
+    end
   end
 end

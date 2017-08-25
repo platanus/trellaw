@@ -28,11 +28,19 @@ describe LawAttribute do
       {
         name: :limit,
         attr_type: :integer,
-        default: 1
+        default: 1,
+        validations: {
+          type: { value: Integer },
+          required: { value: true }
+        }
       }
     end
 
-    before { @attr = described_class.new(:limit, :integer, 1) }
+    before do
+      @attr = described_class.new(:limit, :integer, 1)
+      @attr.validators << LawValidator.new(@attr, :type, value: Integer)
+      @attr.validators << LawValidator.new(@attr, :required, value: true)
+    end
 
     it { expect(@attr.to_param).to eq(response) }
   end

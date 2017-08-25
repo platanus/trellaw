@@ -33,6 +33,13 @@ class LawService < PowerTypes::Service.new(:law_name)
     violations
   end
 
+  def attributes
+    law_class.law_attributes.inject([]) do |memo, attribute|
+      memo << attribute.to_hash
+      memo
+    end
+  end
+
   def law_class
     @law_class ||= law_class_name.constantize
   end

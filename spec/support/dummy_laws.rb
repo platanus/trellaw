@@ -12,6 +12,10 @@ class DummyLaw
   def self.check_violations(_settings, _list)
     []
   end
+
+  def self.law_attributes
+    []
+  end
 end
 
 class EmptyDummyLaw

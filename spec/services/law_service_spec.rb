@@ -29,6 +29,46 @@ describe LawService do
     end
   end
 
+  describe '#attributes' do
+    it "returns attributes array" do
+      attr1 = LawAttribute.new(:limit, :integer, 1)
+      attr1.validators << LawValidator.new(attr1, :type, value: Integer)
+      attr1.validators << LawValidator.new(attr1, :required, value: true)
+
+      attr2 = LawAttribute.new(:days)
+      attr2.validators << LawValidator.new(attr2, :type, value: String)
+
+      result = [
+        {
+          name: :limit,
+          attr_type: :integer,
+          default: 1,
+          validations: {
+            type: {
+              value: Integer
+            },
+            required: {
+              value: true
+            }
+          }
+        },
+        {
+          name: :days,
+          attr_type: :string,
+          default: nil,
+          validations: {
+            type: {
+              value: String
+            }
+          }
+        }
+      ]
+
+      allow(DummyLaw).to receive(:law_attributes).and_return([attr1, attr2])
+      expect(build(law_name: 'dummy').attributes).to eq(result)
+    end
+  end
+
   describe '#get_settings_error' do
     it "returns error if provided settings is not nil or a Hash" do
       expect(build(law_name: 'empty_dummy').get_settings_error(nil)).to be nil

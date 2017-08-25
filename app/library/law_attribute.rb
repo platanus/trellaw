@@ -10,12 +10,12 @@ class LawAttribute
     @validators = []
   end
 
-  def to_param
+  def to_hash
     {
       name: name,
       attr_type: attr_type,
       default: default,
-      validations: validators_to_params
+      validations: validators_to_hash
     }
   end
 
@@ -27,7 +27,7 @@ class LawAttribute
     _attr_type
   end
 
-  def validators_to_params
+  def validators_to_hash
     validators.inject({}) do |memo, validator|
       memo[validator.rule] = validator.options
       memo

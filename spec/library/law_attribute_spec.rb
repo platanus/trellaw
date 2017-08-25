@@ -23,7 +23,7 @@ describe LawAttribute do
     end
   end
 
-  describe "#to_param" do
+  describe "#to_hash" do
     let(:response) do
       {
         name: :limit,
@@ -42,6 +42,6 @@ describe LawAttribute do
       @attr.validators << LawValidator.new(@attr, :required, value: true)
     end
 
-    it { expect(@attr.to_param).to eq(response) }
+    it { expect(@attr.to_hash).to eq(response) }
   end
 end

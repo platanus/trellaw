@@ -1,13 +1,14 @@
 class MaxDaysOnListLaw < LawBase
-  def self.description
-    'Maximum number of days a card can be on this list'
+  attribute(:days, :integer, 7) do
+    validate(
+      required: true,
+      type: Integer,
+      greater_than: 0
+    )
   end
 
-  def self.get_settings_error(_settings)
-    return 'day is required' unless _settings.key? :days
-    return 'day must be an integer' unless _settings[:days].is_a? Integer
-    return 'day must be greater than 0' if _settings[:days] <= 0
-    nil
+  def self.description
+    'Maximum number of days a card can be on this list'
   end
 
   def self.required_card_properties(_settings)

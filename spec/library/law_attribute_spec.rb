@@ -5,7 +5,7 @@ describe LawAttribute do
     context "with name only" do
       before { @attr = described_class.new("limit") }
 
-      it { expect(@attr.name).to eq("limit") }
+      it { expect(@attr.name).to eq(:limit) }
       it { expect(@attr.attr_type).to eq(:string) }
       it { expect(@attr.default).to eq(nil) }
     end
@@ -13,7 +13,7 @@ describe LawAttribute do
     context "changing type and default" do
       before { @attr = described_class.new("limit", :integer, 1) }
 
-      it { expect(@attr.name).to eq("limit") }
+      it { expect(@attr.name).to eq(:limit) }
       it { expect(@attr.attr_type).to eq(:integer) }
       it { expect(@attr.default).to eq(1) }
     end
@@ -26,13 +26,13 @@ describe LawAttribute do
   describe "#to_param" do
     let(:response) do
       {
-        name: "limit",
+        name: :limit,
         attr_type: :integer,
         default: 1
       }
     end
 
-    before { @attr = described_class.new("limit", :integer, 1) }
+    before { @attr = described_class.new(:limit, :integer, 1) }
 
     it { expect(@attr.to_param).to eq(response) }
   end

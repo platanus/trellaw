@@ -1,13 +1,14 @@
 class CardLimitLaw < LawBase
-  def self.description
-    'Maximum number of cards a list can have'
+  attribute(:limit, :integer, 5) do
+    validate(
+      required: true,
+      type: Integer,
+      greater_than: 0
+    )
   end
 
-  def self.get_settings_error(_settings)
-    return 'limit is required' unless _settings.key? :limit
-    return 'limit must be an integer' unless _settings[:limit].is_a? Integer
-    return 'limit must be greater than 0' if _settings[:limit] <= 0
-    nil
+  def self.description
+    'Maximum number of cards a list can have'
   end
 
   def check_violations(_list)

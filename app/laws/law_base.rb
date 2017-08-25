@@ -1,8 +1,22 @@
 class LawBase
+  include LawDsl
+
   def self.check_violations(_settings, _list)
     law = new(_settings)
     law.check_violations(_list)
     law.violations
+  end
+
+  def self.get_settings_error(_settings)
+    law_attributes.each do |attribute|
+      attr_value = _settings[attribute.name]
+      attribute.validators.each do |validator|
+        if !validator.validate(attr_value)
+          return validator.error_message
+        end
+      end
+    end
+    nil
   end
 
   attr_reader :settings, :violations

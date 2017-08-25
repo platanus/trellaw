@@ -4,7 +4,7 @@ class LawAttribute
   attr_accessor :name, :attr_type, :default, :validators
 
   def initialize(_name, _attr_type = nil, _default = nil)
-    @name = _name
+    @name = _name.to_sym
     @attr_type = valid_attr_type!(_attr_type)
     @default = _default
     @validators = []

@@ -1,12 +1,13 @@
 class LawAttribute
   VALID_TYPES = %i{string integer}
 
-  attr_accessor :name, :attr_type, :default
+  attr_accessor :name, :attr_type, :default, :validators
 
   def initialize(_name, _attr_type = nil, _default = nil)
     @name = _name
     @attr_type = valid_attr_type!(_attr_type)
     @default = _default
+    @validators = []
   end
 
   def to_param

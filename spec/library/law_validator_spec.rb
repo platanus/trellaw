@@ -52,4 +52,20 @@ describe LawValidator do
       it { expect(@validator.validate(max - 1)).to eq(false) }
     end
   end
+
+  context "working with type rule" do
+    let(:required_type) { Integer }
+    before { @validator = described_class.new(integer_attr, :type, value: required_type) }
+
+    describe "#error_message" do
+      it { expect(@validator.error_message).to eq("#{attr_name} must be #{required_type}") }
+    end
+
+    describe "#validate" do
+      it { expect(@validator.validate(1)).to eq(true) }
+      it { expect(@validator.validate("1")).to eq(false) }
+      it { expect(@validator.validate(1.0)).to eq(false) }
+      it { expect(@validator.validate(nil)).to eq(false) }
+    end
+  end
 end

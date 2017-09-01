@@ -54,7 +54,7 @@ describe LawValidator do
   end
 
   context "working with type rule" do
-    let(:required_type) { Integer }
+    let(:required_type) { "Integer" }
     before { @validator = described_class.new(integer_attr, :type, value: required_type) }
 
     describe "#error_message" do

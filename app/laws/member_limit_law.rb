@@ -2,7 +2,7 @@ class MemberLimitLaw < LawBase
   attribute(:limit, :integer, 3) do
     validate(
       required: true,
-      type: Integer,
+      type: "Integer",
       greater_than: 0
     )
   end

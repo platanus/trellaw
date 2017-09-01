@@ -4,6 +4,6 @@ module LawValidators::TypeValidator
   end
 
   def self.validate(_value, _options)
-    _value.is_a?(_options[:value])
+    _value.is_a?(_options[:value].constantize)
   end
 end

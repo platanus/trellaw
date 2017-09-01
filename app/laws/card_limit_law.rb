@@ -2,7 +2,7 @@ class CardLimitLaw < LawBase
   attribute(:limit, :integer, 5) do
     validate(
       required: true,
-      type: Integer,
+      type: "Integer",
       greater_than: 0
     )
   end

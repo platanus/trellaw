@@ -2,7 +2,7 @@ class MaxDaysOnListLaw < LawBase
   attribute(:days, :integer, 7) do
     validate(
       required: true,
-      type: Integer,
+      type: "Integer",
       greater_than: 0
     )
   end

@@ -1,9 +1,15 @@
 class LawService < PowerTypes::Service.new(:law_name)
+  include ActiveModel::Serialization
+
   def available?
     law_class
     true
   rescue NameError
     false
+  end
+
+  def id
+    name
   end
 
   def name

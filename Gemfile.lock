@@ -179,6 +179,8 @@ GEM
     jquery-ui-rails (6.0.1)
       railties (>= 3.2.16)
     json (2.1.0)
+    json-schema (2.8.0)
+      addressable (>= 2.4)
     jsonapi-renderer (0.1.2)
     kaminari (1.0.1)
       activesupport (>= 4.1.0)
@@ -323,6 +325,19 @@ GEM
     rspec_junit_formatter (0.2.2)
       builder (< 4)
       rspec-core (>= 2, < 4, != 2.12.0)
+    rswag (1.5.2)
+      rswag-api (= 1.5.2)
+      rswag-specs (= 1.5.2)
+      rswag-ui (= 1.5.2)
+    rswag-api (1.5.2)
+      railties (>= 3.1, < 6.0)
+    rswag-specs (1.5.2)
+      activesupport (>= 3.1, < 6.0)
+      json-schema (~> 2.2)
+      railties (>= 3.1, < 6.0)
+    rswag-ui (1.5.2)
+      actionpack (>= 3.1, < 6.0)
+      railties (>= 3.1, < 6.0)
     ruby-trello (2.0.0)
       activemodel (>= 3.2.0)
       addressable (~> 2.3)
@@ -445,6 +460,7 @@ DEPENDENCIES
   rspec-nc
   rspec-rails
   rspec_junit_formatter (= 0.2.2)
+  rswag
   ruby-trello
   sass-rails
   sentry-raven

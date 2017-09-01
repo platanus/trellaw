@@ -1,0 +1,93 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "API V1",
+    "version": "v1"
+  },
+  "basePath": "/api",
+  "definitions": {
+    "law": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "attributes": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            },
+            "law-attributes": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/law_attribute"
+              }
+            }
+          },
+          "required": [
+            "name",
+            "description",
+            "law-attributes"
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "type"
+      ]
+    },
+    "law_attribute": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "attr-type": {
+          "type": "string"
+        },
+        "validations": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "name",
+        "attr-type",
+        "validations"
+      ]
+    }
+  },
+  "paths": {
+    "/laws": {
+      "get": {
+        "summary": "Retrieves laws",
+        "produces": [
+          "application/json"
+        ],
+        "description": "Retrieves all the available laws",
+        "responses": {
+          "200": {
+            "description": "ok",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/law"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

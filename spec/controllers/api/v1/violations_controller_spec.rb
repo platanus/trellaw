@@ -14,13 +14,17 @@ RSpec.describe Api::V1::ViolationsController do
     end
 
     it 'respond with violation json object' do
-      json_response = JSON.load response.body
+      json_response = JSON.parse(response.body)
+
       serialized_violations = {
-        "violations" => [
+        "data" => [
           {
-            "id" => violation.id,
-            "law" => violation.law,
-            "violation" => violation.violation
+            "id" => violation.id.to_s,
+            "type" => "violations",
+            "attributes" => {
+              "law" => violation.law,
+              "violation" => violation.violation
+            }
           }
         ]
       }

@@ -23,7 +23,7 @@ Rails.application.routes.draw do
   post 'trello/callback/:board_id' => 'trello#callback'
 
   scope path: '/api', defaults: { format: 'json' } do
-    api_version(module: "Api::V1", path: { value: "v1" }) do
+    api_version(module: "Api::V1", header: { name: "Accept", value: "version=1" }, default: true) do
       resources :cards, only: [] do
         resources :violations, only: [:index]
       end

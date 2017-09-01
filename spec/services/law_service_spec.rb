@@ -19,13 +19,16 @@ describe LawService do
   end
 
   describe '#description' do
-    it "returns the law name if law does not implement the .description method if law exists" do
-      expect(build(law_name: 'empty_dummy').description).to eq 'Empty dummy'
-    end
-
     it "returns the result of calling the law's .description method" do
-      allow(DummyLaw).to receive(:description).and_return 'foo'
-      expect(build(law_name: 'dummy').description).to eq 'foo'
+      expect(I18n).to receive(:t).with('laws.dummy.description').and_return('desc')
+      expect(build(law_name: 'dummy').description).to eq 'desc'
+    end
+  end
+
+  describe '#definition' do
+    it "returns the result of calling the law's .definition method" do
+      expect(I18n).to receive(:t).with('laws.dummy.definition').and_return('def')
+      expect(build(law_name: 'dummy').definition).to eq 'def'
     end
   end
 

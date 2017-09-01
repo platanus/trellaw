@@ -24,6 +24,9 @@
             "description": {
               "type": "string"
             },
+            "definition": {
+              "type": "string"
+            },
             "law-attributes": {
               "type": "array",
               "items": {
@@ -34,6 +37,7 @@
           "required": [
             "name",
             "description",
+            "definition",
             "law-attributes"
           ]
         }

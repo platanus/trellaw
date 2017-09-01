@@ -1,14 +1,20 @@
 es-CL:
   laws:
     member_limit:
+      definition: "Esta lista no puede tener tarjetas con más de {limit} miembros"
+      description: "Número máximo de miembros que una tarjeta puede tener en esta lista"
       violations:
         max_members_one: No debe haber más de un responsable para esta tarjeta
         max_members_many: "No deben haber más de %{limit} responsables para esta tarjeta"
     max_days_on_list:
+      definition: "Esta lista no puede tener tarjetas con más de {days} días de antigüedad"
+      description: "Número máximo de días que una tarjeta puede estar en esta lista"
       violations:
         max_days_one: Esta tarjeta no debe permanecer más de 1 día en esta lista
         max_days_many: "Esta tarjeta no debe permanecer más de %{days} días en esta lista"
     card_limit:
+      definition: "Esta lista no puede tener más de {limit} tarjetas"
+      description: "Número máximo de tarjetas que una lista puede tener"
       violations:
         max_cards_one: No debe haber más de una tarjeta en esta lista
         max_cards_many: "No deben haber más de %{limit} tarjetas en esta lista"

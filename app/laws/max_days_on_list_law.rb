@@ -7,10 +7,6 @@ class MaxDaysOnListLaw < LawBase
     )
   end
 
-  def self.description
-    'Maximum number of days a card can be on this list'
-  end
-
   def self.required_card_properties(_settings)
     [:movement]
   end

@@ -7,10 +7,6 @@ class CardLimitLaw < LawBase
     )
   end
 
-  def self.description
-    'Maximum number of cards a list can have'
-  end
-
   def check_violations(_list)
     if _list.count > settings[:limit]
       add_violation(

@@ -8,12 +8,13 @@ LAW_SCHEMA = {
       properties: {
         name: { type: 'string' },
         description: { type: 'string' },
+        definition: { type: 'string' },
         'law-attributes': {
           type: 'array',
           items: { '$ref' => '#/definitions/law_attribute' }
         }
       },
-      required: ['name', 'description', 'law-attributes']
+      required: ['name', 'description', 'definition', 'law-attributes']
     }
   },
   required: ['id', 'type']

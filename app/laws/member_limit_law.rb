@@ -7,10 +7,6 @@ class MemberLimitLaw < LawBase
     )
   end
 
-  def self.description
-    'Maximum number of members a card on this list can have'
-  end
-
   def check_card_violations(_card)
     if _card.member_tids.count > settings[:limit]
       add_violation(

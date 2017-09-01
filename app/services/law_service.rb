@@ -17,8 +17,11 @@ class LawService < PowerTypes::Service.new(:law_name)
   end
 
   def description
-    return law_class.description if law_class.respond_to? :description
-    @law_name.humanize
+    I18n.t("laws.#{name}.description")
+  end
+
+  def definition
+    I18n.t("laws.#{name}.definition")
   end
 
   def get_settings_error(_settings)

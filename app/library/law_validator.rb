@@ -10,7 +10,9 @@ class LawValidator
   end
 
   def error_message
-    "#{law_attr.name} #{validator.error_message(options)}"
+    locals = validator.try(:error_locals, options) || {}
+    msg = I18n.t("validators.#{rule}.error_message", locals)
+    "#{law_attr.name} #{msg}"
   end
 
   def validate(_value)

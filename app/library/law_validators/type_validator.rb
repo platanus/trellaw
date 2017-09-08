@@ -1,6 +1,6 @@
 module LawValidators::TypeValidator
-  def self.error_message(_options)
-    "must be #{_options[:value]}"
+  def self.error_locals(_options)
+    { data_type: _options[:value] }
   end
 
   def self.validate(_value, _options)

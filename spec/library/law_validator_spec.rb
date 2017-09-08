@@ -28,7 +28,7 @@ describe LawValidator do
     before { @validator = described_class.new(integer_attr, :required) }
 
     describe "#error_message" do
-      it { expect(@validator.error_message).to eq("#{attr_name} is required") }
+      it { expect(@validator.error_message).to eq("#{attr_name} es requerido") }
     end
 
     describe "#validate" do
@@ -43,7 +43,7 @@ describe LawValidator do
     before { @validator = described_class.new(integer_attr, :greater_than, value: max) }
 
     describe "#error_message" do
-      it { expect(@validator.error_message).to eq("#{attr_name} must be greater than #{max}") }
+      it { expect(@validator.error_message).to eq("#{attr_name} debe ser mayor que #{max}") }
     end
 
     describe "#validate" do
@@ -58,7 +58,7 @@ describe LawValidator do
     before { @validator = described_class.new(integer_attr, :type, value: required_type) }
 
     describe "#error_message" do
-      it { expect(@validator.error_message).to eq("#{attr_name} must be #{required_type}") }
+      it { expect(@validator.error_message).to eq("#{attr_name} debe ser #{required_type}") }
     end
 
     describe "#validate" do

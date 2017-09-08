@@ -1,6 +1,6 @@
 module LawValidators::GreaterThanValidator
-  def self.error_message(_options)
-    "must be greater than #{_options[:value]}"
+  def self.error_locals(_options)
+    { limit: _options[:value] }
   end
 
   def self.validate(_value, _options)

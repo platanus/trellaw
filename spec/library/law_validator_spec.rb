@@ -1,34 +1,24 @@
 require "rails_helper"
 
 describe LawValidator do
-  let(:attr_name) { "my-attribute" }
-  let(:integer_attr) { @attr = LawAttribute.new(attr_name, :integer, 1) }
-
   describe "#initialize" do
     context "with valid params" do
-      before { @validator = described_class.new(integer_attr, :required) }
+      before { @validator = described_class.new(:required) }
 
-      it { expect(@validator.law_attr).to eq(integer_attr) }
       it { expect(@validator.rule).to eq(:required) }
       it { expect(@validator.options).to eq({}) }
     end
 
-    it "raises error with invalid attr" do
-      expect { described_class.new(:invalid, :integer) }.to(
-        raise_error("invalid LawAttribute instance")
-      )
-    end
-
     it "raises error with invalid rule" do
-      expect { described_class.new(integer_attr, :invalid) }.to raise_error("invalid rule: invalid")
+      expect { described_class.new(:invalid) }.to raise_error("invalid rule: invalid")
     end
   end
 
   context "working with required rule" do
-    before { @validator = described_class.new(integer_attr, :required) }
+    before { @validator = described_class.new(:required) }
 
     describe "#error_message" do
-      it { expect(@validator.error_message).to eq("#{attr_name} es requerido") }
+      it { expect(@validator.error_message).to eq("es requerido") }
     end
 
     describe "#validate" do
@@ -40,10 +30,10 @@ describe LawValidator do
 
   context "working with greater_than rule" do
     let(:max) { 0 }
-    before { @validator = described_class.new(integer_attr, :greater_than, value: max) }
+    before { @validator = described_class.new(:greater_than, value: max) }
 
     describe "#error_message" do
-      it { expect(@validator.error_message).to eq("#{attr_name} debe ser mayor que #{max}") }
+      it { expect(@validator.error_message).to eq("debe ser mayor que #{max}") }
     end
 
     describe "#validate" do
@@ -55,10 +45,10 @@ describe LawValidator do
 
   context "working with type rule" do
     let(:required_type) { "Integer" }
-    before { @validator = described_class.new(integer_attr, :type, value: required_type) }
+    before { @validator = described_class.new(:type, value: required_type) }
 
     describe "#error_message" do
-      it { expect(@validator.error_message).to eq("#{attr_name} debe ser #{required_type}") }
+      it { expect(@validator.error_message).to eq("debe ser de tipo entero") }
     end
 
     describe "#validate" do

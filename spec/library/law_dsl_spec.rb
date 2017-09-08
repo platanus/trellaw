@@ -63,10 +63,8 @@ RSpec.describe LawDsl do
     end
 
     it { expect(@validators.count).to eq(2) }
-    it { expect(@validators.first.law_attr).to eq(@attrs.first) }
     it { expect(@validators.first.rule).to eq(:required) }
     it { expect(@validators.first.options).to eq(value: true) }
-    it { expect(@validators.last.law_attr).to eq(@attrs.first) }
     it { expect(@validators.last.rule).to eq(:greater_than) }
     it { expect(@validators.last.options).to eq(value: 0) }
 
@@ -79,7 +77,7 @@ RSpec.describe LawDsl do
             validate("not a hash")
           end
         end
-      end.to raise_error("rules needs to be a Hash")
+      end.to raise_error("rules need to be a Hash")
     end
 
     it "raises error trying to run valdate outside of attribute context" do

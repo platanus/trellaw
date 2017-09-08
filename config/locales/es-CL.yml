@@ -24,4 +24,12 @@ es-CL:
     greater_than:
       error_message: "debe ser mayor que %{limit}"
     type:
-      error_message: "debe ser %{data_type}"
+      error_message: "debe ser de tipo %{data_type}"
+      alternatives:
+        integer: "entero"
+        string: "texto"
+  attributes:
+    limit:
+      label:  "Límite"
+    days:
+      label:  "Días"

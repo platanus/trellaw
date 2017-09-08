@@ -12,7 +12,7 @@ class LawBase
       attr_value = _settings[attribute.name]
       attribute.validators.each do |validator|
         if !validator.validate(attr_value)
-          return validator.error_message
+          return "#{attribute.label} #{validator.error_message}"
         end
       end
     end

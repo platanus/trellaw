@@ -35,33 +35,38 @@ describe LawService do
   describe '#attributes' do
     it "returns attributes array" do
       attr1 = LawAttribute.new(:limit, :integer, 1)
-      attr1.validators << LawValidator.new(attr1, :type, value: Integer)
-      attr1.validators << LawValidator.new(attr1, :required, value: true)
+      attr1.validators << LawValidator.new(:type, value: "Integer")
+      attr1.validators << LawValidator.new(:required, value: true)
 
       attr2 = LawAttribute.new(:days)
-      attr2.validators << LawValidator.new(attr2, :type, value: String)
+      attr2.validators << LawValidator.new(:type, value: "String")
 
       result = [
         {
           name: :limit,
+          label: "Límite",
           attr_type: :integer,
           default: 1,
           validations: {
             type: {
-              value: Integer
+              value: "Integer",
+              msg: "debe ser de tipo entero"
             },
             required: {
-              value: true
+              value: true,
+              msg: "es requerido"
             }
           }
         },
         {
           name: :days,
+          label: "Días",
           attr_type: :string,
           default: nil,
           validations: {
             type: {
-              value: String
+              value: "String",
+              msg: "debe ser de tipo texto"
             }
           }
         }

@@ -10,9 +10,14 @@ class LawAttribute
     @validators = []
   end
 
+  def label
+    I18n.t("attributes.#{name}.label", default: name)
+  end
+
   def to_hash
     {
       name: name,
+      label: label,
       attr_type: attr_type,
       default: default,
       validations: validators_to_hash
@@ -29,7 +34,7 @@ class LawAttribute
 
   def validators_to_hash
     validators.inject({}) do |memo, validator|
-      memo[validator.rule] = validator.options
+      memo[validator.rule] = validator.options.merge(msg: validator.error_message)
       memo
     end
   end

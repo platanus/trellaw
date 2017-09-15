@@ -1,5 +1,5 @@
 class V1::LawSerializer < ActiveModel::Serializer
-  type :laws
+  type :law
 
   attributes :name, :description, :definition, :law_attributes
 

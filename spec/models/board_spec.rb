@@ -20,32 +20,16 @@ RSpec.describe Board, type: :model do
   end
 
   describe '#trello_lists' do
-    let(:trello_client) { double(get_lists: "list") }
+    let!(:user_client) { mock_user_trello_client(subject.user) }
 
-    before do
-      expect(TrelloUtils).to receive(:load_user_client).with(subject.user).and_return(trello_client)
-    end
-
-    it { expect(subject.trello_lists).to eq("list") }
+    it { expect(subject.trello_lists).to eq([]) }
   end
 
   describe 'trello board attributes' do
-    let(:get_board_result) do
-      double(
-        tid: 'X',
-        name: 'Lean',
-        description: 'desc'
-      )
-    end
+    let!(:user_client) { mock_user_trello_client(subject.user) }
 
-    let(:trello_client) { double(get_board: get_board_result) }
-
-    before do
-      expect(TrelloUtils).to receive(:load_user_client).with(subject.user).and_return(trello_client)
-    end
-
-    it { expect(subject.tid).to eq('X') }
-    it { expect(subject.name).to eq('Lean') }
-    it { expect(subject.description).to eq('desc') }
+    it { expect(subject.tid).to eq('tid value') }
+    it { expect(subject.name).to eq('name value') }
+    it { expect(subject.description).to eq('description value') }
   end
 end

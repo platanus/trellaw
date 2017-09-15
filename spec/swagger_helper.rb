@@ -24,7 +24,8 @@ RSpec.configure do |config|
       basePath: '/api',
       definitions: {
         law: LAW_SCHEMA,
-        law_attribute: LAW_ATTRIBUTE_SCHEMA
+        law_attribute: LAW_ATTRIBUTE_SCHEMA,
+        board: BOARD_SCHEMA
       }
     }
   }

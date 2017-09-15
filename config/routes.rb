@@ -27,6 +27,7 @@ Rails.application.routes.draw do
   scope path: '/api', defaults: { format: 'json' } do
     api_version(module: "Api::V1", header: { name: "Accept", value: "version=1" }, default: true) do
       resources :laws, only: [:index]
+      resources :boards, only: [:show]
       resources :cards, only: [] do
         resources :violations, only: [:index]
       end

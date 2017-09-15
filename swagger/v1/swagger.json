@@ -141,9 +141,135 @@
         "id",
         "type"
       ]
+    },
+    "board_law": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "attributes": {
+          "type": "object",
+          "properties": {
+            "law": {
+              "type": "string"
+            },
+            "list-tid": {
+              "type": "string"
+            },
+            "settings": {
+              "type": "object"
+            }
+          },
+          "required": [
+            "law",
+            "list-tid",
+            "settings"
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "type"
+      ]
     }
   },
   "paths": {
+    "/board_laws/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "type": "string",
+          "required": true
+        }
+      ],
+      "get": {
+        "summary": "Retrieves board law",
+        "produces": [
+          "application/json"
+        ],
+        "description": "Retrieves specific board law data",
+        "responses": {
+          "200": {
+            "description": "ok",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "data": {
+                  "$ref": "#/definitions/board_law"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "board law not found"
+          }
+        }
+      }
+    },
+    "/boards/{board_id}/laws": {
+      "parameters": [
+        {
+          "name": "board_id",
+          "in": "path",
+          "type": "string",
+          "required": true
+        }
+      ],
+      "post": {
+        "summary": "Creates board law",
+        "consumes": [
+          "application/json"
+        ],
+        "description": "Creates a new board's law",
+        "parameters": [
+          {
+            "name": "board_law",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "law": {
+                  "type": "string"
+                },
+                "list_tid": {
+                  "type": "string"
+                },
+                "settings": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "created",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "data": {
+                  "$ref": "#/definitions/board_law"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "board law is invalid"
+          },
+          "404": {
+            "description": "board not found"
+          },
+          "500": {
+            "description": "missing params"
+          }
+        }
+      }
+    },
     "/boards/{id}": {
       "parameters": [
         {

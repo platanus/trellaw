@@ -25,7 +25,8 @@ RSpec.configure do |config|
       definitions: {
         law: LAW_SCHEMA,
         law_attribute: LAW_ATTRIBUTE_SCHEMA,
-        board: BOARD_SCHEMA
+        board: BOARD_SCHEMA,
+        board_law: BOARD_LAW_SCHEMA
       }
     }
   }

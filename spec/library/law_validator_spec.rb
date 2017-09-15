@@ -37,6 +37,7 @@ describe LawValidator do
     end
 
     describe "#validate" do
+      it { expect(@validator.validate(nil)).to eq(true) }
       it { expect(@validator.validate(max + 1)).to eq(true) }
       it { expect(@validator.validate(max)).to eq(false) }
       it { expect(@validator.validate(max - 1)).to eq(false) }
@@ -53,9 +54,9 @@ describe LawValidator do
 
     describe "#validate" do
       it { expect(@validator.validate(1)).to eq(true) }
-      it { expect(@validator.validate("1")).to eq(false) }
+      it { expect(@validator.validate("1")).to eq(true) }
       it { expect(@validator.validate(1.0)).to eq(false) }
-      it { expect(@validator.validate(nil)).to eq(false) }
+      it { expect(@validator.validate(nil)).to eq(true) }
     end
   end
 end

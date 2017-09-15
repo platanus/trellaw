@@ -4,10 +4,20 @@ module LawValidators::TypeValidator
   end
 
   def self.validate(_value, _options)
-    _value.is_a?(_options[:value].constantize)
+    case _options[:value]
+    when "Integer"
+      validate_integer(_value)
+    else
+      true
+    end
   end
 
-  def self.human_type(data_type)
-    I18n.t("validators.type.alternatives.#{data_type.underscore}", default: data_type)
+  def self.human_type(_data_type)
+    I18n.t("validators.type.alternatives.#{_data_type.underscore}", default: _data_type)
+  end
+
+  def self.validate_integer(_value)
+    return true if _value.blank?
+    !!(_value.to_s =~ /\A[0-9]+\z/)
   end
 end

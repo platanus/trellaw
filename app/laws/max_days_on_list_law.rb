@@ -7,7 +7,7 @@ class MaxDaysOnListLaw < LawBase
     )
   end
 
-  def self.required_card_properties(_settings)
+  def required_card_properties
     [:movement]
   end
 

@@ -80,7 +80,7 @@ RSpec.describe LawDsl do
       end.to raise_error("rules need to be a Hash")
     end
 
-    it "raises error trying to run valdate outside of attribute context" do
+    it "raises error trying to run validate outside of attribute context" do
       expect do
         Class.new do
           include LawDsl

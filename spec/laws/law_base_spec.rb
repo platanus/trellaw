@@ -9,15 +9,6 @@ RSpec.describe LawBase do
     some_law.new({})
   end
 
-  describe '.check_violations' do
-    it "creates a new instance, calls check_violations on instance and returns violations" do
-      expect(some_law).to receive(:new).with(:foo).and_return some_law_instance
-      expect(some_law_instance).to receive(:check_violations).with :bar
-      expect(some_law_instance).to receive(:violations).and_return :qux
-      expect(some_law.check_violations(:foo, :bar)).to eq :qux
-    end
-  end
-
   describe '#add_violations' do
     let(:card) { build(:trello_card) }
 
@@ -28,6 +19,51 @@ RSpec.describe LawBase do
       expect(some_law_instance.violations.last.card_tid).to eq(card.tid)
       expect(some_law_instance.violations.last.violation).to eq('violation')
       expect(some_law_instance.violations.last.comment).to eq('comment')
+    end
+  end
+
+  describe '#attributes' do
+    it "returns attributes array" do
+      attr1 = LawAttribute.new(:limit, :integer, 1)
+      attr1.validators << LawValidator.new(:type, value: "Integer")
+      attr1.validators << LawValidator.new(:required, value: true)
+
+      attr2 = LawAttribute.new(:days)
+      attr2.validators << LawValidator.new(:type, value: "String")
+
+      result = [
+        {
+          name: :limit,
+          label: "Límite",
+          attr_type: :integer,
+          default: 1,
+          validations: {
+            type: {
+              value: "Integer",
+              msg: "debe ser de tipo entero"
+            },
+            required: {
+              value: true,
+              msg: "es requerido"
+            }
+          }
+        },
+        {
+          name: :days,
+          label: "Días",
+          attr_type: :string,
+          default: nil,
+          validations: {
+            type: {
+              value: "String",
+              msg: "debe ser de tipo texto"
+            }
+          }
+        }
+      ]
+
+      allow(described_class).to receive(:law_attributes).and_return([attr1, attr2])
+      expect(described_class.new({}).attributes).to eq(result)
     end
   end
 end

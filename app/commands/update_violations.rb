@@ -2,23 +2,27 @@ class UpdateViolations < PowerTypes::Command.new(:board, dry_run: false)
   def perform
     affected_lists.each do |list_tid|
       laws = laws_for_list(list_tid)
-
-      cards = trello_client.get_list_cards(
-        list_tid,
-        properties: laws.map(&:required_card_properties).flatten.uniq
-      )
-
+      cards = get_list_cards(list_tid, laws)
       next if cards.empty?
-
-      laws.each do |law|
-        new_violations = law.check_violations(cards)
-        new_violations.each { |v| v.list_tid = law.board_law.list_tid }
-        violations.concat new_violations
-      end
+      laws.each { |law| load_law_violations(law, cards) }
     end
 
     ApplyViolations.for(board: @board, detected_violations: violations) unless @dry_run
     violations
+  end
+
+  def get_list_cards(_list_tid, _laws)
+    trello_client.get_list_cards(
+      _list_tid,
+      properties: _laws.map(&:required_card_properties).flatten.uniq
+    )
+  end
+
+  def load_law_violations(_law, _cards)
+    _law.check_violations(_cards)
+    new_violations = _law.violations
+    new_violations.each { |v| v.list_tid = _law.board_law.list_tid }
+    violations.concat(new_violations)
   end
 
   def affected_lists
@@ -55,15 +59,21 @@ class UpdateViolations < PowerTypes::Command.new(:board, dry_run: false)
     end
 
     def required_card_properties
-      law_service.required_card_properties(@board_law.settings)
+      law.required_card_properties
     end
 
-    def check_violations(_list)
-      law_service.check_violations(@board_law.settings, _list)
+    def check_violations(_cards_list)
+      law.check_violations(_cards_list)
     end
 
-    def law_service
-      @law_service ||= LawService.new law_name: @board_law.law
+    def violations
+      law.violations
+    end
+
+    private
+
+    def law
+      board_law.law_instance
     end
   end
 end

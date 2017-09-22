@@ -10,7 +10,7 @@ class BoardLawsController < ApplicationController
     )
 
     @trello_list = trello_client.get_list(params[:list_tid]) if params.key? :list_tid
-    @law = LawService.new law_name: params[:law]
+    @law = LawUtils.law_instance(params[:law])
   end
 
   def create
@@ -27,7 +27,7 @@ class BoardLawsController < ApplicationController
   def create_params
     params.require(:board_law).permit(:board_id, :law, :list_tid).tap do |cp|
       cp[:board] = current_user.boards.find cp.delete :board_id
-      cp[:settings] = YAML.load(params[:board_law][:settings]).symbolize_keys
+      cp[:settings] = YAML.safe_load(params[:board_law][:settings]).symbolize_keys
     end
   end
 end

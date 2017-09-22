@@ -22,11 +22,11 @@ RSpec.describe Violation, type: :model do
 
   describe '.active' do
     it "returns only active violations" do
-      violation_1 = create(:violation)
-      _violation_2 = create(:violation, finished_at: Time.current)
-      violation_3 = create(:violation)
+      violation1 = create(:violation)
+      _violation2 = create(:violation, finished_at: Time.current)
+      violation3 = create(:violation)
 
-      expect(Violation.active).to eq([violation_1, violation_3])
+      expect(Violation.active).to eq([violation1, violation3])
     end
   end
 end

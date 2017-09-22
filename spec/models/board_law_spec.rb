@@ -5,7 +5,7 @@ RSpec.describe BoardLaw, type: :model do
     expect(build(:board_law).valid?).to be true
   end
 
-  subject(:board_law) { create(:board_law, law: 'dummy') }
+  subject(:board_law) { build(:board_law, law: 'dummy') }
 
   describe 'associations' do
     it { is_expected.to belong_to(:board) }
@@ -19,16 +19,16 @@ RSpec.describe BoardLaw, type: :model do
     it { is_expected.not_to allow_value('foo').for(:law) }
     it { is_expected.to allow_value(nil).for(:list_tid) }
 
-    it "marks settings as valid if LawService.get_settings_error returns nil" do
-      allow_any_instance_of(LawService).to receive(:get_settings_error).and_return nil
-      is_expected.to allow_value(:foo).for(:settings)
+    context "when law returns no errors" do
+      before { allow_any_instance_of(DummyLaw).to receive(:get_settings_error).and_return(nil) }
+
+      it { is_expected.to allow_value(:foo).for(:settings) }
     end
 
-    it "marks settings as invalid if LawService.get_settings_error returns an error" do
-      allow_any_instance_of(LawService).to receive(:get_settings_error).with(nil).and_return(nil)
-      allow_any_instance_of(LawService).to receive(:get_settings_error).with(:foo).and_return('err')
+    context "when law returns errors" do
+      before { allow_any_instance_of(DummyLaw).to receive(:get_settings_error).and_return('err') }
 
-      is_expected.not_to allow_value(:foo).for(:settings)
+      it { is_expected.not_to allow_value(:foo).for(:settings) }
     end
   end
 end

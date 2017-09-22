@@ -6,4 +6,8 @@ class V1::LawSerializer < ActiveModel::Serializer
   def law_attributes
     object.attributes
   end
+
+  def name
+    object.law_name
+  end
 end

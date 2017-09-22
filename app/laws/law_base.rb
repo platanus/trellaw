@@ -1,15 +1,33 @@
 class LawBase
   include LawDsl
+  include ActiveModel::Serialization
 
-  def self.check_violations(_settings, _list)
-    law = new(_settings)
-    law.check_violations(_list)
-    law.violations
+  attr_reader :settings, :violations
+
+  def initialize(_settings)
+    @settings = _settings.try(:symbolize_keys)
+    @violations = []
   end
 
-  def self.get_settings_error(_settings)
-    law_attributes.each do |attribute|
-      attr_value = _settings[attribute.name]
+  def id
+    law_name
+  end
+
+  def law_name
+    self.class.to_s.chomp("Law").underscore.to_sym
+  end
+
+  def description
+    translate_law_key(:description)
+  end
+
+  def definition
+    translate_law_key(:definition)
+  end
+
+  def get_settings_error
+    self.class.law_attributes.each do |attribute|
+      attr_value = settings[attribute.name]
       attribute.validators.each do |validator|
         if !validator.validate(attr_value)
           return "#{attribute.label} #{validator.error_message}"
@@ -19,15 +37,19 @@ class LawBase
     nil
   end
 
-  attr_reader :settings, :violations
-
-  def initialize(_settings)
-    @settings = _settings
-    @violations = []
+  def attributes
+    self.class.law_attributes.inject([]) do |memo, attribute|
+      memo << attribute.to_hash
+      memo
+    end
   end
 
-  def check_violations(_list)
-    _list.each { |c| check_card_violations(c) }
+  def required_card_properties
+    []
+  end
+
+  def check_violations(_cards_list)
+    _cards_list.each { |card| check_card_violations(card) }
   end
 
   def check_card_violations(_card)
@@ -36,9 +58,16 @@ class LawBase
 
   def add_violation(_card, _name, comment: nil)
     @violations << DetectedViolation.new.tap do |violation|
+      violation.law = law_name
       violation.violation = _name
       violation.card_tid = _card.tid
       violation.comment = comment
     end
+  end
+
+  protected
+
+  def translate_law_key(key)
+    I18n.t("laws.#{law_name}.#{key}")
   end
 end

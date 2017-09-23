@@ -1,5 +1,4 @@
 class LawBase
-  include LawDsl
   include ActiveModel::Serialization
 
   attr_reader :settings, :violations
@@ -63,6 +62,10 @@ class LawBase
       violation.card_tid = _card.tid
       violation.comment = comment
     end
+  end
+
+  def self.law_attributes
+    @law_attributes ||= []
   end
 
   protected

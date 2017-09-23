@@ -1,28 +1,34 @@
 require 'rails_helper'
 
 RSpec.describe LawDsl do
+  before do
+    begin
+      Object.send(:remove_const, :TestLaw)
+    rescue NameError
+      # do nothing
+    end
+  end
+
   describe "#attribute" do
     context "without attributes" do
-      let(:dummy_class) do
-        Class.new do
-          include LawDsl
+      before do
+        described_class.new(:test) do
+          # do nothing
         end
       end
 
-      it { expect(dummy_class.law_attributes).to eq([]) }
+      it { expect(TestLaw.law_attributes).to eq([]) }
     end
 
     context "adding attributes" do
-      let(:dummy_class) do
-        Class.new do
-          include LawDsl
-
+      before do
+        described_class.new(:test) do
           attribute :limit, :integer, 1
           attribute :days
         end
-      end
 
-      before { @attrs = dummy_class.law_attributes }
+        @attrs = TestLaw.law_attributes
+      end
 
       it { expect(@attrs.count).to eq(2) }
       it { expect(@attrs.first.name).to eq(:limit) }
@@ -35,9 +41,7 @@ RSpec.describe LawDsl do
 
     it "raises error trying to nest attributes" do
       expect do
-        Class.new do
-          include LawDsl
-
+        described_class.new(:test) do
           attribute :limit do
             attribute :days
           end
@@ -47,18 +51,14 @@ RSpec.describe LawDsl do
   end
 
   context "adding validations" do
-    let(:dummy_class) do
-      Class.new do
-        include LawDsl
-
+    before do
+      described_class.new(:test) do
         attribute(:limit, :integer, 5) do
           validate(required: true, greater_than: 0)
         end
       end
-    end
 
-    before do
-      @attrs = dummy_class.law_attributes
+      @attrs = TestLaw.law_attributes
       @validators = @attrs.first.validators
     end
 
@@ -70,9 +70,7 @@ RSpec.describe LawDsl do
 
     it "raises error if given rules are not a hash" do
       expect do
-        Class.new do
-          include LawDsl
-
+        described_class.new(:test) do
           attribute(:limit, :integer, 5) do
             validate("not a hash")
           end
@@ -82,9 +80,7 @@ RSpec.describe LawDsl do
 
     it "raises error trying to run validate outside of attribute context" do
       expect do
-        Class.new do
-          include LawDsl
-
+        described_class.new(:test) do
           validate(required: true, greater_than: 0)
         end
       end.to raise_error("validate needs to run inside attribute block")

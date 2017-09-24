@@ -8,7 +8,8 @@ describe LawAttribute do
       it { expect(@attr.name).to eq(:limit) }
       it { expect(@attr.label).to eq("Límite") }
       it { expect(@attr.attr_type).to eq(:string) }
-      it { expect(@attr.default).to eq(nil) }
+      it { expect(@attr.default).to be_nil }
+      it { expect(@attr.value).to be_nil }
     end
 
     context "changing type and options" do
@@ -22,6 +23,15 @@ describe LawAttribute do
 
     it "raises error with invalid type" do
       expect { described_class.new("limit", :invalid) }.to raise_error("invalid attribute type")
+    end
+  end
+
+  describe "#value" do
+    before { @attr = described_class.new("limit", :integer) }
+
+    it "casts value to attr type" do
+      @attr.value = "1"
+      expect(@attr.value).to eq(1)
     end
   end
 

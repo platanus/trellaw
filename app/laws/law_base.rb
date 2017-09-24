@@ -1,7 +1,7 @@
 class LawBase
   include ActiveModel::Serialization
 
-  attr_reader :settings, :violations
+  attr_reader :violations
 
   def initialize(_settings)
     @settings = _settings.try(:symbolize_keys)
@@ -36,10 +36,12 @@ class LawBase
     nil
   end
 
-  def attributes
-    self.class.law_attributes.inject([]) do |memo, attribute|
-      memo << attribute.to_hash
-      memo
+  def config
+    @config ||= begin
+      self.class.law_attributes.dup.map do |attribute|
+        attribute.value = settings[attribute.name]
+        attribute
+      end
     end
   end
 
@@ -68,7 +70,11 @@ class LawBase
     @law_attributes ||= []
   end
 
-  protected
+  private
+
+  def settings
+    @settings
+  end
 
   def translate_law_key(key)
     I18n.t("laws.#{law_name}.#{key}")

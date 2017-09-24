@@ -14,7 +14,7 @@ describe LawUtils do
     let(:law_instance) { described_class.law_instance(law_name, settings) }
 
     it { expect(law_instance).to be_a(MemberLimitLaw) }
-    it { expect(law_instance.settings).to eq(limit: 1) }
+    it { expect(law_instance.send(:settings)).to eq(limit: 1) }
 
     context "with invalid law name" do
       let(:law_name) { :invalid }

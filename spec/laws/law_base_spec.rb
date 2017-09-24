@@ -1,12 +1,16 @@
 require 'rails_helper'
 
 RSpec.describe LawBase do
+  let(:settings) do
+    {}
+  end
+
   let(:some_law) do
     Class.new(LawBase)
   end
 
   let(:some_law_instance) do
-    some_law.new({})
+    some_law.new(settings)
   end
 
   describe '#add_violations' do
@@ -22,48 +26,30 @@ RSpec.describe LawBase do
     end
   end
 
-  describe '#attributes' do
-    it "returns attributes array" do
-      attr1 = LawAttribute.new(:limit, :integer, 1)
-      attr1.validators << LawValidator.new(:type, value: "Integer")
-      attr1.validators << LawValidator.new(:required, value: true)
-
-      attr2 = LawAttribute.new(:days)
-      attr2.validators << LawValidator.new(:type, value: "String")
-
-      result = [
-        {
-          name: :limit,
-          label: "Límite",
-          attr_type: :integer,
-          default: 1,
-          validations: {
-            type: {
-              value: "Integer",
-              msg: "debe ser de tipo entero"
-            },
-            required: {
-              value: true,
-              msg: "es requerido"
-            }
-          }
-        },
-        {
-          name: :days,
-          label: "Días",
-          attr_type: :string,
-          default: nil,
-          validations: {
-            type: {
-              value: "String",
-              msg: "debe ser de tipo texto"
-            }
-          }
-        }
+  describe '#config' do
+    let(:law_attributes) do
+      [
+        LawAttribute.new("attr1", :integer),
+        LawAttribute.new(:attr2)
       ]
+    end
 
-      allow(described_class).to receive(:law_attributes).and_return([attr1, attr2])
-      expect(described_class.new({}).attributes).to eq(result)
+    let(:settings) do
+      {
+        "attr1" => "1",
+        attr2: "value"
+      }
+    end
+
+    before { expect(LawBase).to receive(:law_attributes).and_return(law_attributes) }
+
+    it "returns law attributes with values" do
+      attrs = some_law_instance.config
+      expect(attrs.count).to eq(2)
+      expect(attrs.first.name).to eq(:attr1)
+      expect(attrs.first.value).to eq(1)
+      expect(attrs.last.name).to eq(:attr2)
+      expect(attrs.last.value).to eq("value")
     end
   end
 end

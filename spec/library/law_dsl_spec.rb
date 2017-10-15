@@ -120,4 +120,36 @@ RSpec.describe LawDsl do
       end.to raise_error("violation can't run inside attribute block")
     end
   end
+
+  context "adding list violation" do
+    context "with valid definition" do
+      before do
+        described_class.new(:test) do
+          list_violation(:max_cards) do
+            "condition"
+          end
+        end
+
+        @violations = TestLaw.law_violations
+      end
+
+      it { expect(@violations.count).to eq(1) }
+      it { expect(@violations.first).to be_a(LawViolations::ListViolation) }
+      it { expect(@violations.first.name).to eq(:max_cards) }
+      it { expect(@violations.first.law_name).to eq(:test) }
+      it { expect(@violations.first.condition_proc.call).to eq("condition") }
+    end
+
+    it "raises error trying to run validator inside attribute method" do
+      expect do
+        described_class.new(:test) do
+          attribute(:limit) do
+            list_violation(:max_cards) do
+              # do nothing
+            end
+          end
+        end
+      end.to raise_error("violation can't run inside attribute block")
+    end
+  end
 end

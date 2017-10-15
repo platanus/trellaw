@@ -21,6 +21,10 @@ class LawDsl
     add_violation(LawViolations::CardViolation, _name, &_block)
   end
 
+  def list_violation(_name, &_block)
+    add_violation(LawViolations::ListViolation, _name, &_block)
+  end
+
   def validate(_rules)
     raise "rules need to be a Hash" unless _rules.is_a?(Hash)
     raise "validate needs to run inside attribute block" unless @current_attr

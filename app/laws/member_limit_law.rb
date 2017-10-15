@@ -7,6 +7,16 @@ Trellaw.define_law(:member_limit) do
     )
   end
 
+  card_violation(:max_members) do
+    if card.member_tids.count > attributes[:limit]
+      if attributes[:limit] == 1
+        set_comment(:one)
+      else
+        set_comment(:many, limit: attributes[:limit])
+      end
+    end
+  end
+
   @law_class.class_eval do
     def check_card_violations(_card)
       if _card.member_tids.count > settings[:limit].to_i

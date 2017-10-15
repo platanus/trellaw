@@ -4,8 +4,9 @@ es-CL:
       definition: "Esta lista no puede tener tarjetas con más de {limit} miembros"
       description: "Número máximo de miembros que una tarjeta puede tener en esta lista"
       violations:
-        max_members_one: No debe haber más de un responsable para esta tarjeta
-        max_members_many: "No deben haber más de %{limit} responsables para esta tarjeta"
+        max_members:
+          one: No debe haber más de un responsable para esta tarjeta
+          many: "No deben haber más de %{limit} responsables para esta tarjeta"
     max_days_on_list:
       definition: "Esta lista no puede tener tarjetas con más de {days} días de antigüedad"
       description: "Número máximo de días que una tarjeta puede estar en esta lista"

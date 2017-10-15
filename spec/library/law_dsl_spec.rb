@@ -51,22 +51,24 @@ RSpec.describe LawDsl do
   end
 
   context "adding validations" do
-    before do
-      described_class.new(:test) do
-        attribute(:limit, :integer, 5) do
-          validate(required: true, greater_than: 0)
+    context "with valid definition" do
+      before do
+        described_class.new(:test) do
+          attribute(:limit, :integer, 5) do
+            validate(required: true, greater_than: 0)
+          end
         end
+
+        @attrs = TestLaw.law_attributes
+        @validators = @attrs.first.validators
       end
 
-      @attrs = TestLaw.law_attributes
-      @validators = @attrs.first.validators
+      it { expect(@validators.count).to eq(2) }
+      it { expect(@validators.first.rule).to eq(:required) }
+      it { expect(@validators.first.options).to eq(value: true) }
+      it { expect(@validators.last.rule).to eq(:greater_than) }
+      it { expect(@validators.last.options).to eq(value: 0) }
     end
-
-    it { expect(@validators.count).to eq(2) }
-    it { expect(@validators.first.rule).to eq(:required) }
-    it { expect(@validators.first.options).to eq(value: true) }
-    it { expect(@validators.last.rule).to eq(:greater_than) }
-    it { expect(@validators.last.options).to eq(value: 0) }
 
     it "raises error if given rules are not a hash" do
       expect do
@@ -84,6 +86,38 @@ RSpec.describe LawDsl do
           validate(required: true, greater_than: 0)
         end
       end.to raise_error("validate needs to run inside attribute block")
+    end
+  end
+
+  context "adding card violation" do
+    context "with valid definition" do
+      before do
+        described_class.new(:test) do
+          card_violation(:max_days) do
+            "condition"
+          end
+        end
+
+        @violations = TestLaw.law_violations
+      end
+
+      it { expect(@violations.count).to eq(1) }
+      it { expect(@violations.first).to be_a(LawViolations::CardViolation) }
+      it { expect(@violations.first.name).to eq(:max_days) }
+      it { expect(@violations.first.law_name).to eq(:test) }
+      it { expect(@violations.first.condition_proc.call).to eq("condition") }
+    end
+
+    it "raises error trying to run validator inside attribute method" do
+      expect do
+        described_class.new(:test) do
+          attribute(:limit) do
+            card_violation(:max_days) do
+              # do nothing
+            end
+          end
+        end
+      end.to raise_error("violation can't run inside attribute block")
     end
   end
 end

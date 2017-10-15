@@ -70,6 +70,10 @@ class LawBase
     @law_attributes ||= []
   end
 
+  def self.law_violations
+    @law_violations ||= []
+  end
+
   private
 
   def settings

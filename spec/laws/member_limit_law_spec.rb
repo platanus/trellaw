@@ -83,6 +83,9 @@ RSpec.describe MemberLimitLaw do
         let(:member_tids_count) { 4 }
 
         it { expect(check_max_members).to be_a(DetectedViolation) }
+        it { expect(check_max_members.card_tid).to eq(card.tid) }
+        it { expect(check_max_members.law).to eq(:member_limit) }
+        it { expect(check_max_members.violation).to eq(:max_members) }
 
         it "sets valid comment" do
           expect(check_max_members.comment).to eq(

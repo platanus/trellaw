@@ -53,6 +53,69 @@ RSpec.describe CardLimitLaw do
     end
   end
 
+  describe "#violations" do
+    before do
+      @violations = described_class.law_violations
+      @violation = @violations.first
+    end
+
+    it { expect(@violations.count).to eq(1) }
+    it { expect(@violation.name).to eq(:max_cards) }
+    it { expect(@violation.law_name).to eq(:card_limit) }
+    it { expect(@violation.condition_proc).to be_a(Proc) }
+
+    describe "#max_cards violation" do
+      let(:c1) { double(:c1, tid: "c1") }
+      let(:c2) { double(:c2, tid: "c2") }
+      let(:cards) { [c1, c2] }
+      let(:limit) { 3 }
+      let(:attributes) { { limit: limit } }
+      let(:violation_settigns) do
+        {
+          cards: cards,
+          attributes: attributes
+        }
+      end
+
+      def check_max_cards
+        @violation.check(violation_settigns)
+      end
+
+      it { expect(check_max_cards).to be_nil }
+
+      context "with detected violation" do
+        let(:c3) { double(:c3, tid: "c3") }
+        let(:c4) { double(:c4, tid: "c4") }
+
+        before do
+          cards << c3
+          cards << c4
+        end
+
+        it { expect(check_max_cards).to be_a(DetectedViolation) }
+        it { expect(check_max_cards.card_tid).to eq(c4.tid) }
+        it { expect(check_max_cards.law).to eq(:card_limit) }
+        it { expect(check_max_cards.violation).to eq(:max_cards) }
+
+        it "sets valid comment" do
+          expect(check_max_cards.comment).to eq(
+            I18n.t("laws.card_limit.violations.max_cards.many", limit: limit)
+          )
+        end
+
+        context "when limit has value 1" do
+          let(:limit) { 1 }
+
+          it "sets valid comment" do
+            expect(check_max_cards.comment).to eq(
+              I18n.t("laws.card_limit.violations.max_cards.one", limit: limit)
+            )
+          end
+        end
+      end
+    end
+  end
+
   context "law base" do
     let(:law_name) { :card_limit }
     let(:required_card_properties) { [] }

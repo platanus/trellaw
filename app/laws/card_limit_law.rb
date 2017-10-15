@@ -7,6 +7,16 @@ Trellaw.define_law(:card_limit) do
     )
   end
 
+  list_violation(:max_cards) do
+    if cards.count > attributes[:limit]
+      if attributes[:limit].to_i == 1
+        set_comment(:one)
+      else
+        set_comment(:many, limit: attributes[:limit])
+      end
+    end
+  end
+
   @law_class.class_eval do
     def check_violations(_list)
       if _list.count > settings[:limit].to_i

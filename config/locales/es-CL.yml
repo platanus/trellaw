@@ -18,8 +18,9 @@ es-CL:
       definition: "Esta lista no puede tener más de {limit} tarjetas"
       description: "Número máximo de tarjetas que una lista puede tener"
       violations:
-        max_cards_one: No debe haber más de una tarjeta en esta lista
-        max_cards_many: "No deben haber más de %{limit} tarjetas en esta lista"
+        max_cards:
+          one: No debe haber más de una tarjeta en esta lista
+          many: "No deben haber más de %{limit} tarjetas en esta lista"
   validators:
     required:
       error_message: "es requerido"

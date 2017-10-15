@@ -90,6 +90,9 @@ RSpec.describe MaxDaysOnListLaw do
         let(:added_at) { now - 4.days }
 
         it { expect(check_max_days).to be_a(DetectedViolation) }
+        it { expect(check_max_days.card_tid).to eq(card.tid) }
+        it { expect(check_max_days.law).to eq(:max_days_on_list) }
+        it { expect(check_max_days.violation).to eq(:max_days) }
 
         it "sets valid comment" do
           expect(check_max_days.comment).to eq(

@@ -1,5 +1,5 @@
 class LawViolation
-  attr_reader :name, :law_name, :condition_proc, :comment_proc
+  attr_reader :name, :law_name, :condition_proc, :comment
 
   def initialize(_settings)
     @name = valid_name!(_settings[:name])
@@ -10,7 +10,7 @@ class LawViolation
 
   def check(_settings)
     set_violation_settings(_settings)
-    build_detected_violation if !!condition_proc.call
+    build_detected_violation if !!instance_eval(&condition_proc)
   end
 
   def set_violation_settings(_settings)
@@ -24,8 +24,12 @@ class LawViolation
     v.law = law_name
     v.violation = name
     v.card_tid = detected_violation_card.tid
-    v.comment = comment_proc.call || default_comment
+    v.comment = comment || default_comment
     v
+  end
+
+  def set_comment(key, _locals = {})
+    @comment = I18n.t("laws.#{law_name}.violations.#{name}.#{key}", _locals)
   end
 
   def detected_violation_card
@@ -34,7 +38,7 @@ class LawViolation
   end
 
   def default_comment
-    I18n.t("laws.#{law_name}.violations.#{name}", default: "undefined violation default msg")
+    set_comment(:default, default: "undefined violation default msg")
   end
 
   def valid_name!(_name)

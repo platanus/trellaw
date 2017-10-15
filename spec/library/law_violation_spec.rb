@@ -5,14 +5,12 @@ describe LawViolation do
   let(:name) { "foo" }
   let(:law_name) { "member_limit" }
   let(:condition_proc) { Proc.new { true } }
-  let(:comment_proc) { Proc.new { comment } }
 
   let(:settings) do
     {
       name: name,
       law_name: law_name,
-      condition_proc: condition_proc,
-      comment_proc: comment_proc
+      condition_proc: condition_proc
     }
   end
 
@@ -24,7 +22,6 @@ describe LawViolation do
     it { expect(violation.name).to eq(name.to_sym) }
     it { expect(violation.law_name).to eq(law_name.to_sym) }
     it { expect(violation.condition_proc).to eq(condition_proc) }
-    it { expect(violation.comment_proc).to eq(comment_proc) }
 
     context "with missing name" do
       let(:name) { nil }
@@ -72,13 +69,7 @@ describe LawViolation do
       it { expect(check.law).to eq(law_name.to_sym) }
       it { expect(check.violation).to eq(name.to_sym) }
       it { expect(check.card_tid).to eq(tid) }
-      it { expect(check.comment).to eq(comment) }
-
-      context "with undefined comment" do
-        let(:comment_proc) { Proc.new { nil } }
-
-        it { expect(check.comment).to eq("undefined violation default msg") }
-      end
+      it { expect(check.comment).to eq("undefined violation default msg") }
     end
 
     context "with condition returning false" do

@@ -11,5 +11,9 @@ FactoryGirl.define do
     factory :card_violation, class: LawViolations::CardViolation do
       # just use defaults
     end
+
+    factory :list_violation, class: LawViolations::ListViolation do
+      # just use defaults
+    end
   end
 end

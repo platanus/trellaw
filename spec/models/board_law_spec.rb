@@ -31,4 +31,18 @@ RSpec.describe BoardLaw, type: :model do
       it { is_expected.not_to allow_value(:foo).for(:settings) }
     end
   end
+
+  describe "#config" do
+    subject(:board_law) { build(:board_law, :with_settings, law: 'dummy') }
+    let(:attributes) do
+      [
+        double(:attr1, name: :foo, value: 1),
+        double(:attr2, name: :bar, value: 2)
+      ]
+    end
+
+    before { expect_any_instance_of(DummyLaw).to receive(:config).and_return(attributes) }
+
+    it { expect(subject.config).to eq(foo: 1, bar: 2) }
+  end
 end

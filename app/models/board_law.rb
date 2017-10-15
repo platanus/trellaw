@@ -12,6 +12,13 @@ class BoardLaw < ApplicationRecord
     LawUtils.law_instance(law, settings)
   end
 
+  def config
+    law_instance.config.inject({}) do |memo, attribute|
+      memo[attribute.name] = attribute.value
+      memo
+    end
+  end
+
   private
 
   def settings_valid_for_selected_law

@@ -97,7 +97,6 @@ RSpec.describe CardLimitLaw do
 
   context "law base" do
     let(:law_name) { :card_limit }
-    let(:required_card_properties) { [] }
 
     it_behaves_like :law_base
   end

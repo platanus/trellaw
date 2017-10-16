@@ -99,7 +99,6 @@ RSpec.describe MaxDaysOnListLaw do
 
   context "law base" do
     let(:law_name) { :max_days_on_list }
-    let(:required_card_properties) { [:movement] }
 
     it_behaves_like :law_base
   end

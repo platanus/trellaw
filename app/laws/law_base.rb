@@ -42,8 +42,12 @@ class LawBase
     end
   end
 
+  def self.required_card_properties
+    @required_card_properties ||= []
+  end
+
   def required_card_properties
-    []
+    self.class.required_card_properties
   end
 
   def self.law_attributes

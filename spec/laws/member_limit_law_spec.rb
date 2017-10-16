@@ -91,7 +91,6 @@ RSpec.describe MemberLimitLaw do
 
   context "law base" do
     let(:law_name) { :member_limit }
-    let(:required_card_properties) { [] }
 
     it_behaves_like :law_base
   end

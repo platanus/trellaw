@@ -34,6 +34,16 @@ class LawDsl
     end
   end
 
+  def required_card_properties(*attributes)
+    raise "required_card_properties can't run inside attribute block" if @current_attr
+    attributes.each do |attribute|
+      attribute = attribute.to_sym
+      if !@law_class.required_card_properties.include?(attribute)
+        @law_class.required_card_properties << attribute.to_sym
+      end
+    end
+  end
+
   private
 
   def create_law_class

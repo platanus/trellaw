@@ -152,4 +152,22 @@ RSpec.describe LawDsl do
       end.to raise_error("violation can't run inside attribute block")
     end
   end
+
+  context "adding required card properties" do
+    context "with valid definition" do
+      before do
+        described_class.new(:test) do
+          required_card_properties(:prop1, :prop1, "prop2") do
+            # do nothing
+          end
+        end
+
+        @required_card_properties = TestLaw.required_card_properties
+      end
+
+      it { expect(@required_card_properties.count).to eq(2) }
+      it { expect(@required_card_properties.first).to eq(:prop1) }
+      it { expect(@required_card_properties.last).to eq(:prop2) }
+    end
+  end
 end

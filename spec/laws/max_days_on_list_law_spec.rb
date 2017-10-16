@@ -41,22 +41,6 @@ RSpec.describe MaxDaysOnListLaw do
     end
   end
 
-  describe "#check_violations" do
-    let(:bad_card) { build(:trello_card, added_at: 3.day.ago) }
-    let(:good_card) { build(:trello_card, added_at: 1.day.ago) }
-    let(:settings) do
-      { days: 2 }
-    end
-
-    it "adds a violation for each card that was added before :days days ago" do
-      law.check_violations([bad_card, good_card])
-      violations = law.violations
-      expect(violations.count).to eq(1)
-      expect(violations.last.violation).to eq('max_days')
-      expect(violations.last.card_tid).to eq(bad_card.tid)
-    end
-  end
-
   describe "#violations" do
     before do
       @violations = described_class.law_violations

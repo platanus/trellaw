@@ -32,27 +32,6 @@ RSpec.describe CardLimitLaw do
     end
   end
 
-  describe "#check_violations" do
-    let(:bad_list) { [build(:trello_card), build(:trello_card)] }
-    let(:good_list) { [build(:trello_card)] }
-    let(:settings) do
-      { limit: 1 }
-    end
-
-    it "does not add a violation on a list with :limit cards" do
-      law.check_violations(good_list)
-      expect(law.violations.count).to eq 0
-    end
-
-    it "adds a a violation on the last card of a list with more than :limit cards" do
-      law.check_violations(bad_list)
-      violations = law.violations
-      expect(violations.count).to eq 1
-      expect(violations.last.violation).to eq 'max_cards'
-      expect(violations.last.card_tid).to eq bad_list.last.tid
-    end
-  end
-
   describe "#violations" do
     before do
       @violations = described_class.law_violations

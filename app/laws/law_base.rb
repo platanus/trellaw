@@ -1,11 +1,8 @@
 class LawBase
   include ActiveModel::Serialization
 
-  attr_reader :violations
-
   def initialize(_settings)
     @settings = _settings.try(:symbolize_keys)
-    @violations = []
   end
 
   def id
@@ -25,7 +22,7 @@ class LawBase
   end
 
   def get_settings_error
-    self.class.law_attributes.each do |attribute|
+    law_attributes.each do |attribute|
       attr_value = settings[attribute.name]
       attribute.validators.each do |validator|
         if !validator.validate(attr_value)
@@ -38,7 +35,7 @@ class LawBase
 
   def config
     @config ||= begin
-      self.class.law_attributes.dup.map do |attribute|
+      law_attributes.dup.map do |attribute|
         attribute.value = settings[attribute.name]
         attribute
       end
@@ -49,29 +46,20 @@ class LawBase
     []
   end
 
-  def check_violations(_cards_list)
-    _cards_list.each { |card| check_card_violations(card) }
-  end
-
-  def check_card_violations(_card)
-    raise NotImplementedError, 'implement check_violations or check_card_violations'
-  end
-
-  def add_violation(_card, _name, comment: nil)
-    @violations << DetectedViolation.new.tap do |violation|
-      violation.law = law_name
-      violation.violation = _name
-      violation.card_tid = _card.tid
-      violation.comment = comment
-    end
-  end
-
   def self.law_attributes
     @law_attributes ||= []
   end
 
+  def law_attributes
+    self.class.law_attributes
+  end
+
   def self.law_violations
     @law_violations ||= []
+  end
+
+  def law_violations
+    self.class.law_violations
   end
 
   private

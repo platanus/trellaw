@@ -13,19 +13,6 @@ RSpec.describe LawBase do
     some_law.new(settings)
   end
 
-  describe '#add_violations' do
-    let(:card) { build(:trello_card) }
-
-    it "adds violations to the `violations` array" do
-      expect { some_law_instance.add_violation(card, 'violation', comment: 'comment') }
-        .to change { some_law_instance.violations.count }.by(1)
-
-      expect(some_law_instance.violations.last.card_tid).to eq(card.tid)
-      expect(some_law_instance.violations.last.violation).to eq('violation')
-      expect(some_law_instance.violations.last.comment).to eq('comment')
-    end
-  end
-
   describe '#config' do
     let(:law_attributes) do
       [

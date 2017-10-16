@@ -32,23 +32,6 @@ RSpec.describe MemberLimitLaw do
     end
   end
 
-  describe "#check_violations" do
-    let(:settings) do
-      { limit: 1 }
-    end
-
-    let(:bad_card) { build(:trello_card, member_tids: ['member_1', 'member_2']) }
-    let(:good_card) { build(:trello_card, member_tids: ['member_1']) }
-
-    it "adds a a violation for each card that has more than members than the :limit param" do
-      law.check_violations([bad_card, good_card])
-      violations = law.violations
-      expect(violations.count).to eq(1)
-      expect(violations.last.violation).to eq('max_members')
-      expect(violations.last.card_tid).to eq(bad_card.tid)
-    end
-  end
-
   describe "#violations" do
     before do
       @violations = described_class.law_violations

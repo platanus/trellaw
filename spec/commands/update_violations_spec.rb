@@ -13,6 +13,9 @@ describe UpdateViolations do
   let!(:card2) { build(:trello_card) }
   let!(:card3) { build(:trello_card) }
 
+  let!(:violation1) { build(:card_violation) }
+  let!(:violation2) { build(:list_violation) }
+
   def perform
     described_class.for(board: board)
   end
@@ -24,6 +27,8 @@ describe UpdateViolations do
     allow(client).to receive(:get_list_cards).with('tid_1', properties: []).and_return([card1])
     allow(client).to receive(:get_list_cards)
       .with('tid_2', properties: []).and_return([card2, card3])
+    allow(law1).to receive(:law_violations).and_return([violation1])
+    allow(law2).to receive(:law_violations).and_return([violation2])
   end
 
   it "calls get_list_cards for each list, passing each law's required properties" do
@@ -35,31 +40,32 @@ describe UpdateViolations do
     perform
   end
 
-  it "calls check_violations for each law" do
-    expect(law1).to receive(:check_violations).with([card1]).and_call_original
-    expect(law2).to receive(:check_violations).with([card2, card3]).and_call_original
+  it "calls check method on each law violation" do
+    expect(violation1).to receive(:check).with(card: card1, attributes: board_law1.config)
+                                         .and_return(nil)
+    expect(violation2).to receive(:check).with(cards: [card2, card3], attributes: board_law2.config)
+                                         .and_return(nil)
 
     perform
   end
 
   it "sets each violation list_tid before applying" do
-    violation = build(:detected_violation)
+    detected_violation = build(:detected_violation)
+    expect(violation1).to receive(:check).and_return(detected_violation)
+    expect(violation2).to receive(:check).and_return(nil)
 
-    expect(law1).to receive(:violations).and_return([violation])
-    expect(law2).to receive(:violations).and_return([])
-
-    expect { perform }.to change { violation.list_tid }.to('tid_1')
+    expect { perform }.to change { detected_violation.list_tid }.to('tid_1')
   end
 
   it "applies the concatenated list of returned violations to the board" do
-    violation1 = build(:detected_violation)
-    violation2 = build(:detected_violation)
+    detected_violation1 = build(:detected_violation)
+    detected_violation2 = build(:detected_violation)
 
-    expect(law1).to receive(:violations).and_return([violation1])
-    expect(law2).to receive(:violations).and_return([violation2])
+    expect(violation1).to receive(:check).and_return(detected_violation1)
+    expect(violation2).to receive(:check).and_return(detected_violation2)
 
     expect(ApplyViolations).to receive(:for)
-      .with(board: board, detected_violations: [violation1, violation2])
+      .with(board: board, detected_violations: [detected_violation1, detected_violation2])
 
     perform
   end
@@ -68,6 +74,7 @@ describe UpdateViolations do
     let!(:board_law3) { create(:board_law, board: board, list_tid: nil) }
     let!(:law3) { board_law3.law_instance }
     let!(:card4) { build(:trello_card) }
+    let!(:violation3) { build(:card_violation) }
 
     before do
       allow(board).to receive(:board_laws).and_return([board_law1, board_law2, board_law3])
@@ -76,12 +83,16 @@ describe UpdateViolations do
       allow(client).to receive(:get_lists)
         .with(board.board_tid)
         .and_return([build(:trello_list, tid: 'tid_1'), build(:trello_list, tid: 'tid_3')])
+      allow(law3).to receive(:law_violations).and_return([violation3])
     end
 
-    it "call check_violations for every board list - law match" do
-      expect(law1).to receive(:check_violations).with([card1]).and_call_original
-      expect(law3).to receive(:check_violations).with([card1]).and_call_original
-      expect(law3).to receive(:check_violations).with([card4]).and_call_original
+    it "call check method for every board list - law match" do
+      expect(violation1).to receive(:check).with(card: card1, attributes: board_law1.config)
+                                           .and_return(nil)
+      expect(violation3).to receive(:check).with(card: card1, attributes: board_law3.config)
+                                           .and_return(nil)
+      expect(violation3).to receive(:check).with(card: card4, attributes: board_law3.config)
+                                           .and_return(nil)
 
       perform
     end

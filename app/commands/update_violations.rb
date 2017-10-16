@@ -11,6 +11,8 @@ class UpdateViolations < PowerTypes::Command.new(:board, dry_run: false)
     violations
   end
 
+  private
+
   def get_list_cards(_list_tid, _laws)
     trello_client.get_list_cards(
       _list_tid,
@@ -19,10 +21,35 @@ class UpdateViolations < PowerTypes::Command.new(:board, dry_run: false)
   end
 
   def load_law_violations(_law, _cards)
-    _law.check_violations(_cards)
-    new_violations = _law.violations
+    new_violations = []
+    get_law_detected_violations(new_violations, _law, _cards)
     new_violations.each { |v| v.list_tid = _law.board_law.list_tid }
     violations.concat(new_violations)
+  end
+
+  def get_law_detected_violations(_new_violations, _law, _cards)
+    _law.violations.each do |violation|
+      case violation
+      when LawViolations::CardViolation
+        load_card_violations(_new_violations, violation, _cards, _law)
+      when LawViolations::ListViolation
+        load_list_violations(_new_violations, violation, _cards, _law)
+      else
+        fail "unknown law violation type"
+      end
+    end
+  end
+
+  def load_card_violations(_new_violations, _violation, _cards, _law)
+    _cards.each do |card|
+      v = _violation.check(card: card, attributes: _law.board_law.config)
+      _new_violations << v if v
+    end
+  end
+
+  def load_list_violations(_new_violations, _violation, _cards, _law)
+    v = _violation.check(cards: _cards, attributes: _law.board_law.config)
+    _new_violations << v if v
   end
 
   def affected_lists
@@ -62,12 +89,8 @@ class UpdateViolations < PowerTypes::Command.new(:board, dry_run: false)
       law.required_card_properties
     end
 
-    def check_violations(_cards_list)
-      law.check_violations(_cards_list)
-    end
-
     def violations
-      law.violations
+      law.law_violations
     end
 
     private

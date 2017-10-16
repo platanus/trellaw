@@ -32,6 +32,26 @@ RSpec.describe MemberLimitLaw do
     end
   end
 
+  describe "#attributes" do
+    before do
+      @attributes = described_class.law_attributes
+      @attribute = @attributes.first
+      @validators = @attribute.validators
+    end
+
+    it { expect(@attributes.count).to eq(1) }
+    it { expect(@attribute.name).to eq(:limit) }
+    it { expect(@attribute.attr_type).to eq(:integer) }
+    it { expect(@attribute.default).to eq(3) }
+    it { expect(@validators.count).to eq(3) }
+    it { expect(@validators.first.options).to eq(value: true) }
+    it { expect(@validators.first.rule).to eq(:required) }
+    it { expect(@validators.second.options).to eq(value: "Integer") }
+    it { expect(@validators.second.rule).to eq(:type) }
+    it { expect(@validators.third.options).to eq(value: 0) }
+    it { expect(@validators.third.rule).to eq(:greater_than) }
+  end
+
   describe "#violations" do
     before do
       @violations = described_class.law_violations

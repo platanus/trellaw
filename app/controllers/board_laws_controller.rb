@@ -10,7 +10,6 @@ class BoardLawsController < ApplicationController
     )
 
     @trello_list = trello_client.get_list(params[:list_tid]) if params.key? :list_tid
-    @law = LawUtils.law_instance(params[:law])
   end
 
   def create

@@ -13,7 +13,7 @@
       <% @board_laws.each do |board_law| %>
         <% if board_law.list_tid == trello_list.tid %>
           <span>
-            <%= board_law.law_instance.description %>
+            <%= board_law.description %>
             &nbsp;(<%= board_law.settings %>)
           </span>
         <% end %>

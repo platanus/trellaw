@@ -23,12 +23,12 @@ class UpdateViolations < PowerTypes::Command.new(:board, dry_run: false)
   def load_law_violations(_law, _cards)
     new_violations = []
     get_law_detected_violations(new_violations, _law, _cards)
-    new_violations.each { |v| v.list_tid = _law.board_law.list_tid }
+    new_violations.each { |v| v.list_tid = _law.list_tid }
     violations.concat(new_violations)
   end
 
   def get_law_detected_violations(_new_violations, _law, _cards)
-    _law.violations.each do |violation|
+    _law.law_violations.each do |violation|
       case violation
       when LawViolations::CardViolation
         load_card_violations(_new_violations, violation, _cards, _law)
@@ -42,32 +42,32 @@ class UpdateViolations < PowerTypes::Command.new(:board, dry_run: false)
 
   def load_card_violations(_new_violations, _violation, _cards, _law)
     _cards.each do |card|
-      v = _violation.check(card: card, attributes: _law.board_law.config)
+      v = _violation.check(card: card, attributes: _law.config)
       _new_violations << v if v
     end
   end
 
   def load_list_violations(_new_violations, _violation, _cards, _law)
-    v = _violation.check(cards: _cards, attributes: _law.board_law.config)
+    v = _violation.check(cards: _cards, attributes: _law.config)
     _new_violations << v if v
   end
 
   def affected_lists
     @affected_lists ||= begin
-      if @board.board_laws.any? { |bl| bl.list_tid.nil? }
-        trello_client.get_lists(@board.board_tid).map &:tid
+      if all_laws.any? { |bl| bl.list_tid.nil? }
+        trello_client.get_lists(@board.board_tid).map(&:tid)
       else
-        @board.board_laws.map(&:list_tid).uniq
+        all_laws.map(&:list_tid).uniq
       end
     end
   end
 
   def laws_for_list(_list_tid)
-    all_laws.select { |law| law.board_law.list_tid.nil? || law.board_law.list_tid == _list_tid }
+    all_laws.select { |law| law.list_tid.nil? || law.list_tid == _list_tid }
   end
 
   def all_laws
-    @all_laws ||= @board.board_laws.map { |bl| BoardLawWrapper.new(bl) }
+    @all_laws ||= @board.board_laws
   end
 
   def violations
@@ -76,27 +76,5 @@ class UpdateViolations < PowerTypes::Command.new(:board, dry_run: false)
 
   def trello_client
     @trello_client ||= TrelloUtils.summon_the_monkey
-  end
-
-  class BoardLawWrapper
-    attr_reader :board_law
-
-    def initialize(_board_law)
-      @board_law = _board_law
-    end
-
-    def required_card_properties
-      law.required_card_properties
-    end
-
-    def violations
-      law.law_violations
-    end
-
-    private
-
-    def law
-      board_law.law_instance
-    end
   end
 end

@@ -8,6 +8,9 @@ class BoardLaw < ApplicationRecord
   validate :settings_valid_for_selected_law
   validates_uniqueness_of :law, scope: [:board_id, :list_tid]
 
+  delegate :description, :definition, :get_settings_error, :required_card_properties,
+    :law_attributes, :law_violations, to: :law_instance, allow_nil: true, prefix: false
+
   def law_instance
     LawUtils.law_instance(law, settings)
   end

@@ -50,11 +50,9 @@ module TrelloHelpers
       []
     end
 
-    def add_card_comment(_card_tid, _comment)
-    end
+    def add_card_comment(_card_tid, _comment); end
 
-    def edit_card_comment(_comment_tid, _comment)
-    end
+    def edit_card_comment(_comment_tid, _comment); end
 
     private
 

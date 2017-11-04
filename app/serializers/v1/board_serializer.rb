@@ -13,7 +13,7 @@ class V1::BoardSerializer < ActiveModel::Serializer
       {
         id: law.id,
         law: law.law,
-        settings: law.settings
+        settings: law.config
       }
     end
   end

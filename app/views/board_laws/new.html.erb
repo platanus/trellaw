@@ -1,6 +1,6 @@
 <h1>Activate a law</h1>
 
-<p>Activate <b><%= @law.description %></b> on <b><%= @trello_list.try(:name) || 'Every list' %></b></p>
+<p>Activate <b><%= @board_law.description %></b> on <b><%= @trello_list.try(:name) || 'Every list' %></b></p>
 
 <%= form_for @board_law do |f| %>
   <%= f.hidden_field :board_id %>

@@ -1,15 +1,26 @@
 class LawBase
-  include LawDsl
+  extend LawDsl
+  include ActiveModel::Serialization
 
-  def self.check_violations(_settings, _list)
-    law = new(_settings)
-    law.check_violations(_list)
-    law.violations
+  def initialize(_settings)
+    @settings = _settings.try(:symbolize_keys)
   end
 
-  def self.get_settings_error(_settings)
+  def id
+    law_name
+  end
+
+  def description
+    translate_law_key(:description)
+  end
+
+  def definition
+    translate_law_key(:definition)
+  end
+
+  def get_settings_error
     law_attributes.each do |attribute|
-      attr_value = _settings[attribute.name]
+      attr_value = settings[attribute.name]
       attribute.validators.each do |validator|
         if !validator.validate(attr_value)
           return "#{attribute.label} #{validator.error_message}"
@@ -19,26 +30,54 @@ class LawBase
     nil
   end
 
-  attr_reader :settings, :violations
-
-  def initialize(_settings)
-    @settings = _settings
-    @violations = []
-  end
-
-  def check_violations(_list)
-    _list.each { |c| check_card_violations(c) }
-  end
-
-  def check_card_violations(_card)
-    raise NotImplementedError, 'implement check_violations or check_card_violations'
-  end
-
-  def add_violation(_card, _name, comment: nil)
-    @violations << DetectedViolation.new.tap do |violation|
-      violation.violation = _name
-      violation.card_tid = _card.tid
-      violation.comment = comment
+  def config
+    @config ||= begin
+      law_attributes.dup.map do |attribute|
+        attribute.value = settings[attribute.name]
+        attribute
+      end
     end
+  end
+
+  def self.law_name
+    to_s.chomp("Law").underscore.to_sym
+  end
+
+  def law_name
+    self.class.law_name
+  end
+
+  def self.required_card_properties
+    @required_card_properties ||= []
+  end
+
+  def required_card_properties
+    self.class.required_card_properties
+  end
+
+  def self.law_attributes
+    @law_attributes ||= []
+  end
+
+  def law_attributes
+    self.class.law_attributes
+  end
+
+  def self.law_violations
+    @law_violations ||= []
+  end
+
+  def law_violations
+    self.class.law_violations
+  end
+
+  private
+
+  def settings
+    @settings
+  end
+
+  def translate_law_key(key)
+    I18n.t("laws.#{law_name}.#{key}")
   end
 end

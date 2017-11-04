@@ -7,24 +7,15 @@ class MaxDaysOnListLaw < LawBase
     )
   end
 
-  def self.required_card_properties(_settings)
-    [:movement]
-  end
+  required_card_props(:movement)
 
-  private
-
-  def check_card_violations(_card)
-    if _card.added_at < settings[:days].days.ago
-      add_violation(
-        _card,
-        'max_days',
-        comment: comment
-      )
+  card_violation(:max_days) do
+    if card.added_at < attributes[:days].days.ago
+      if attributes[:days] == 1
+        set_comment(:one)
+      else
+        set_comment(:many, days: attributes[:days])
+      end
     end
-  end
-
-  def comment
-    return I18n.t 'laws.max_days_on_list.violations.max_days_one' if settings[:days] == 1
-    I18n.t('laws.max_days_on_list.violations.max_days_many', days: settings[:days])
   end
 end

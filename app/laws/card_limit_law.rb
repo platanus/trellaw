@@ -7,20 +7,13 @@ class CardLimitLaw < LawBase
     )
   end
 
-  def check_violations(_list)
-    if _list.count > settings[:limit]
-      add_violation(
-        _list.last,
-        'max_cards',
-        comment: comment
-      )
+  list_violation(:max_cards) do
+    if cards.count > attributes[:limit]
+      if attributes[:limit].to_i == 1
+        set_comment(:one)
+      else
+        set_comment(:many, limit: attributes[:limit])
+      end
     end
-  end
-
-  private
-
-  def comment
-    return I18n.t 'laws.card_limit.violations.max_cards_one' if settings[:limit] == 1
-    I18n.t('laws.card_limit.violations.max_cards_many', limit: settings[:limit])
   end
 end

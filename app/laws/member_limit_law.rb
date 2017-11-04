@@ -7,20 +7,13 @@ class MemberLimitLaw < LawBase
     )
   end
 
-  def check_card_violations(_card)
-    if _card.member_tids.count > settings[:limit]
-      add_violation(
-        _card,
-        'max_members',
-        comment: comment
-      )
+  card_violation(:max_members) do
+    if card.member_tids.count > attributes[:limit]
+      if attributes[:limit] == 1
+        set_comment(:one)
+      else
+        set_comment(:many, limit: attributes[:limit])
+      end
     end
-  end
-
-  private
-
-  def comment
-    return I18n.t 'laws.member_limit.violations.max_members_one' if settings[:limit] == 1
-    I18n.t('laws.member_limit.violations.max_members_many', limit: settings[:limit])
   end
 end

@@ -1,9 +1,13 @@
 class V1::LawSerializer < ActiveModel::Serializer
-  type :laws
+  type :law
 
   attributes :name, :description, :definition, :law_attributes
 
   def law_attributes
-    object.attributes
+    object.config.map(&:to_hash)
+  end
+
+  def name
+    object.law_name
   end
 end

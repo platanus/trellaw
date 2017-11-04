@@ -29,7 +29,13 @@ module TrelloHelpers
     end
 
     def get_board(_board_tid)
-      nil
+      Struct.new("FakeBoard") do
+        ::Board::TRELLO_BOARD_ATTRS.each do |attribute|
+          define_method(attribute) do
+            "#{attribute} value"
+          end
+        end
+      end.new
     end
 
     def get_lists(_board_tid)
@@ -44,11 +50,9 @@ module TrelloHelpers
       []
     end
 
-    def add_card_comment(_card_tid, _comment)
-    end
+    def add_card_comment(_card_tid, _comment); end
 
-    def edit_card_comment(_comment_tid, _comment)
-    end
+    def edit_card_comment(_comment_tid, _comment); end
 
     private
 

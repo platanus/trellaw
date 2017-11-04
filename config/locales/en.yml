@@ -31,16 +31,3 @@
 
 en:
   hello: 'Hello world'
-  laws:
-    member_limit:
-      violations:
-        max_members_one: Epa! Don\'t add more than 1 cuate for cards in this list my friend, yes?
-        max_members_many: "Epa! Don\'t add more than %{limit} cuates for cards in this list my friend, yes?"
-    max_days_on_list:
-      violations:
-        max_days_one: Epa! Don\'t keep this card on this list for more than one day
-        max_days_many: "Epa! Don\'t keep this card on this list for more than %{days} days"
-    card_limit:
-      violations:
-        max_cards_one: Epa, amigo! Don\'t add more than a card on this list, ok?
-        max_cards_many: "Epa! no more than %{limit} cards are allowed on this list"

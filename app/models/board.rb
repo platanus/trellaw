@@ -8,11 +8,7 @@ class Board < ApplicationRecord
   validates_presence_of :user, :board_tid
   validates_uniqueness_of :board_tid
 
-  TRELLO_BOARD_ATTRS.each do |attribute|
-    define_method(attribute) do
-      trello_board.send(attribute)
-    end
-  end
+  delegate *TRELLO_BOARD_ATTRS, to: :trello_board, allow_nil: true, prefix: false
 
   def trello_lists
     trello_client.get_lists(board_tid)

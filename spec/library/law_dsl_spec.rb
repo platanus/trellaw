@@ -12,7 +12,7 @@ RSpec.describe LawDsl do
   describe "#attribute" do
     context "without attributes" do
       before do
-        described_class.new(:test) do
+        class TestLaw < LawBase
           # do nothing
         end
       end
@@ -22,7 +22,7 @@ RSpec.describe LawDsl do
 
     context "adding attributes" do
       before do
-        described_class.new(:test) do
+        class TestLaw < LawBase
           attribute :limit, :integer, 1
           attribute :days
         end
@@ -41,7 +41,7 @@ RSpec.describe LawDsl do
 
     it "raises error trying to nest attributes" do
       expect do
-        described_class.new(:test) do
+        class TestLaw < LawBase
           attribute :limit do
             attribute :days
           end
@@ -53,7 +53,7 @@ RSpec.describe LawDsl do
   context "adding validations" do
     context "with valid definition" do
       before do
-        described_class.new(:test) do
+        class TestLaw < LawBase
           attribute(:limit, :integer, 5) do
             validate(required: true, greater_than: 0)
           end
@@ -72,7 +72,7 @@ RSpec.describe LawDsl do
 
     it "raises error if given rules are not a hash" do
       expect do
-        described_class.new(:test) do
+        class TestLaw < LawBase
           attribute(:limit, :integer, 5) do
             validate("not a hash")
           end
@@ -82,7 +82,7 @@ RSpec.describe LawDsl do
 
     it "raises error trying to run validate outside of attribute context" do
       expect do
-        described_class.new(:test) do
+        class TestLaw < LawBase
           validate(required: true, greater_than: 0)
         end
       end.to raise_error("validate needs to run inside attribute block")
@@ -92,7 +92,7 @@ RSpec.describe LawDsl do
   context "adding card violation" do
     context "with valid definition" do
       before do
-        described_class.new(:test) do
+        class TestLaw < LawBase
           card_violation(:max_days) do
             "condition"
           end
@@ -110,7 +110,7 @@ RSpec.describe LawDsl do
 
     it "raises error trying to run validator inside attribute method" do
       expect do
-        described_class.new(:test) do
+        class TestLaw < LawBase
           attribute(:limit) do
             card_violation(:max_days) do
               # do nothing
@@ -124,7 +124,7 @@ RSpec.describe LawDsl do
   context "adding list violation" do
     context "with valid definition" do
       before do
-        described_class.new(:test) do
+        class TestLaw < LawBase
           list_violation(:max_cards) do
             "condition"
           end
@@ -142,7 +142,7 @@ RSpec.describe LawDsl do
 
     it "raises error trying to run validator inside attribute method" do
       expect do
-        described_class.new(:test) do
+        class TestLaw < LawBase
           attribute(:limit) do
             list_violation(:max_cards) do
               # do nothing
@@ -156,8 +156,8 @@ RSpec.describe LawDsl do
   context "adding required card properties" do
     context "with valid definition" do
       before do
-        described_class.new(:test) do
-          required_card_properties(:prop1, :prop1, "prop2") do
+        class TestLaw < LawBase
+          required_card_props(:prop1, :prop1, "prop2") do
             # do nothing
           end
         end

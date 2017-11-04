@@ -1,4 +1,4 @@
-Trellaw.define_law(:card_limit) do
+class CardLimitLaw < LawBase
   attribute(:limit, :integer, 5) do
     validate(
       required: true,

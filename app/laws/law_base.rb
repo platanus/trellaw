@@ -1,4 +1,5 @@
 class LawBase
+  extend LawDsl
   include ActiveModel::Serialization
 
   def initialize(_settings)
@@ -7,10 +8,6 @@ class LawBase
 
   def id
     law_name
-  end
-
-  def law_name
-    self.class.to_s.chomp("Law").underscore.to_sym
   end
 
   def description
@@ -40,6 +37,14 @@ class LawBase
         attribute
       end
     end
+  end
+
+  def self.law_name
+    to_s.chomp("Law").underscore.to_sym
+  end
+
+  def law_name
+    self.class.law_name
   end
 
   def self.required_card_properties

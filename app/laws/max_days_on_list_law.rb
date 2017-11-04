@@ -1,4 +1,4 @@
-Trellaw.define_law(:max_days_on_list) do
+class MaxDaysOnListLaw < LawBase
   attribute(:days, :integer, 7) do
     validate(
       required: true,
@@ -7,7 +7,7 @@ Trellaw.define_law(:max_days_on_list) do
     )
   end
 
-  required_card_properties(:movement)
+  required_card_props(:movement)
 
   card_violation(:max_days) do
     if card.added_at < attributes[:days].days.ago

@@ -1,13 +1,4 @@
-class LawDsl
-  attr_reader :law_name
-
-  def initialize(_law_name, &block)
-    @law_name = _law_name
-    @law_class = create_law_class
-    instance_eval(&block)
-    nil
-  end
-
+module LawDsl
   def attribute(_name, _attr_type = nil, _default = nil)
     raise "nest attribute method is not allowed" if @current_attr
     @current_attr = LawAttribute.new(_name, _attr_type, _default)
@@ -34,33 +25,18 @@ class LawDsl
     end
   end
 
-  def required_card_properties(*attributes)
-    raise "required_card_properties can't run inside attribute block" if @current_attr
+  def required_card_props(*attributes)
+    raise "required_card_props can't run inside attribute block" if @current_attr
     attributes.each do |attribute|
       attribute = attribute.to_sym
-      if !@law_class.required_card_properties.include?(attribute)
-        @law_class.required_card_properties << attribute.to_sym
+      if !required_card_properties.include?(attribute)
+        required_card_properties << attribute.to_sym
       end
     end
-  end
-
-  private
-
-  def create_law_class
-    class_name = LawUtils.law_class_name(law_name)
-    Object.const_set(class_name, Class.new(LawBase))
   end
 
   def add_violation(klass, _name, &_block)
     raise "violation can't run inside attribute block" if @current_attr
     law_violations << klass.new(name: _name, law_name: law_name, condition_proc: _block)
-  end
-
-  def law_attributes
-    @law_class.law_attributes
-  end
-
-  def law_violations
-    @law_class.law_violations
   end
 end

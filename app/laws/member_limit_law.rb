@@ -1,4 +1,4 @@
-Trellaw.define_law(:member_limit) do
+class MemberLimitLaw < LawBase
   attribute(:limit, :integer, 3) do
     validate(
       required: true,

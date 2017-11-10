@@ -33,7 +33,7 @@ gem 'timecop'
 gem 'turbolinks', '~> 5'
 gem 'uglifier', '>= 1.3.0'
 gem 'versionist'
-gem 'webpacker', '~> 2.0'
+gem 'webpacker', '~> 3.0'
 
 group :production do
   gem 'heroku-stage'
@@ -55,6 +55,7 @@ end
 group :development, :test do
   gem 'better_errors'
   gem 'binding_of_caller'
+  gem 'debug-extras'
   gem 'dotenv-rails'
   gem 'factory_girl_rails'
   gem 'faker'

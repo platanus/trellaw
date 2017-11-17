@@ -38,6 +38,12 @@
     "webpack-merge": "^4.1.0"
   },
   "devDependencies": {
+    "jest": "^21.2.1",
     "webpack-dev-server": "^2.7.1"
+  },
+  "jest": {
+    "roots": ["<rootDir>/app/javascript"],
+    "moduleDirectories": ["<rootDir>/node_modules"],
+    "moduleFileExtensions": ["js","jsx"]
   }
 }

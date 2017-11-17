@@ -9,7 +9,13 @@
       "useBuiltIns": true
     }]
   ],
-
+  "env": {
+    "test": {
+      "presets": [
+        ["env", { "targets": { "node": 8 }}]
+      ]
+    }
+  },
   "plugins": [
     "syntax-dynamic-import",
     "transform-object-rest-spread",

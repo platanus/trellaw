@@ -13,6 +13,7 @@ class V1::BoardSerializer < ActiveModel::Serializer
       {
         id: law.id,
         law: law.law,
+        "list-tid": law.list_tid,
         settings: law.config
       }
     end

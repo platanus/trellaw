@@ -4,5 +4,7 @@ import Vue from 'vue';
 import App from '../trellaw/app.vue';
 
 document.addEventListener('DOMContentLoaded', () => {
-  const app = new Vue(App).$mount('#app');
+  if (document.getElementById('board')) {
+    const app = new Vue(App).$mount('#board');
+  }
 });

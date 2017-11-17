@@ -1,32 +1,3 @@
-<h1>Board: <%= @trello_board.name %></h1>
 
-<p>
-  <%= link_to 'Update Violations', update_violations_board_path(@board) %>
-</p>
-
-<ul>
-  <% @trello_lists.each do |trello_list| %>
-  <li>
-    <%= trello_list.name %>
-    <div>
-      <span>Active Laws:</span>
-      <% @board_laws.each do |board_law| %>
-        <% if board_law.list_tid == trello_list.tid %>
-          <span>
-            <%= board_law.description %>
-            &nbsp;(<%= board_law.settings %>)
-          </span>
-        <% end %>
-      <% end %>
-    </div>
-    <div>
-      <span>Activate Laws:</span>
-      <% @all_laws.each do |law| %>
-        <% unless @board_laws.any? { |bl| bl.law == law.law_name && bl.list_tid == trello_list.tid } %>
-          <%= link_to law.description, new_board_law_path(law: law.law_name, board_id: @board.id, list_tid: trello_list.tid) %>
-        <% end %>
-      <% end %>
-    </div>
-  </li>
-  <% end %>
-</ul>
+<div id="board">
+</div>

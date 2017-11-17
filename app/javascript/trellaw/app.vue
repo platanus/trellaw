@@ -6,14 +6,21 @@
 </template>
 
 <script>
+import store from './store';
 import appHeader from '../trellaw/app-header.vue';
 import board from '../trellaw/board.vue';
 
 export default {
+  store,
   components: {
     appHeader,
     board,
   },
+  mounted() {
+    if (window.boardId) {
+      this.$store.dispatch('board/getBoard', window.boardId);
+    }
+  }
 }
 </script>
 

@@ -1,10 +1,6 @@
 <template>
   <div class="board">
-    <list class="board__list" :title="'Ideas'"></list>
-    <list class="board__list" :title="'Backlog'"></list>
-    <list class="board__list" :title="'This Sprint'"></list>
-    <list class="board__list" :title="'In Process'"></list>
-    <list class="board__list" :title="'Done'"></list>
+    <list class="board__list" v-for="list in lists" :key="list.tid" :title="list.name"></list>
   </div>
 </template>
 
@@ -12,6 +8,7 @@
 import list from './list';
 
 export default {
+  props: ['lists'],
   components: {
     list,
   }

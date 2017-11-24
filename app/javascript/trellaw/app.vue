@@ -1,11 +1,13 @@
 <template>
   <div class="app">
     <app-header class="app__header"></app-header>
-    <board class="app__board"></board>
+    <board class="app__board" :lists="lists"></board>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 import store from './store';
 import appHeader from '../trellaw/app-header.vue';
 import board from '../trellaw/board.vue';
@@ -20,7 +22,12 @@ export default {
     if (window.boardId) {
       this.$store.dispatch('board/getBoard', window.boardId);
     }
-  }
+  },
+  computed: {
+   ...mapGetters({
+     lists: 'board/lists',
+    }),
+  },
 }
 </script>
 

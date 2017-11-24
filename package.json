@@ -1,4 +1,7 @@
 {
+  "scripts": {
+    "test": "jest"
+  },
   "dependencies": {
     "@rails/webpacker": "^3.0.1",
     "autoprefixer": "^7.1.2",

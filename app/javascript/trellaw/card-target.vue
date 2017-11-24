@@ -1,13 +1,17 @@
 <template>
-  <div class="card-target">
+  <card class="card--target">
     <img :src="add" />
-  </div>
+  </card>
 </template>
 
 <script>
 import add from '../trellaw/images/add.svg'
+import card from './card';
 
 export default {
+  components: {
+    card,
+  },
   data() {
     return {
       add,
@@ -16,11 +20,12 @@ export default {
 }
 </script>
 
-<style scoped>
-  .card-target {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 103px;
-  }
+<style lang="scss" scoped>
+@import './stylesheets/variables';
+
+.card--target {
+  background-color: $card-target-bg;
+  justify-content: center;
+  align-items: center;
+}
 </style>

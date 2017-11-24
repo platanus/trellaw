@@ -1,6 +1,6 @@
 <template>
   <div class="board">
-    <list class="board__list" v-for="list in lists" :key="list.tid" :title="list.name"></list>
+    <list class="board__list" v-for="list in lists" :key="list.tid" :list="list"></list>
   </div>
 </template>
 
@@ -11,7 +11,7 @@ export default {
   props: ['lists'],
   components: {
     list,
-  }
+  },
 }
 </script>
 

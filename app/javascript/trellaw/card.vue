@@ -1,20 +1,21 @@
 <template>
   <div class="card">
-    <component :is="cardType"></component>
+    <slot></slot>
   </div>
 </template>
 
 <script>
-export default {
-  props: ['cardType'],
-}
+export default {}
 </script>
 
 <style lang="scss" scoped>
-  @import './stylesheets/variables';
+@import './stylesheets/variables';
 
-  .card {
-    background-color: $card-bg;
-    border-radius: 4px;
-  }
+.card {
+  display: flex;
+  height: 103px;
+  margin-bottom: 8px;
+  background-color: $card-bg;
+  border-radius: 4px;
+}
 </style>

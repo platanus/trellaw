@@ -12,6 +12,7 @@ export default {
   },
   getters: {
     laws: state => state.lawIds.map(lawId => state.laws[lawId]),
+    getLawById: (state) => (lawId) => state.laws[lawId],
   },
   mutations: {
     [types.GET_LAWS](state) {

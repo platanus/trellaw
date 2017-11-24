@@ -12,8 +12,8 @@ export const boardResponse = {
         { tid: '5a05f6ff0335b111eccb6fe7', name: 'Done' },
       ],
       laws: [
-        { id: 1, law: 'card_limit', settings: { limit: 3 } },
-        { id: 2, law: 'member_limit', settings: { limit: 5 } },
+        { id: 1, law: 'card_limit', 'list-tid': '5a05f6ff0335b111eccb6fe5', settings: { limit: 3 } },
+        { id: 2, law: 'member_limit', 'list-tid': '5a05f6ff0335b111eccb6fe7', settings: { limit: 5 } },
       ],
     },
   },

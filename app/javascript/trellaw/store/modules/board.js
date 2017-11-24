@@ -24,7 +24,8 @@ export default {
       const lists = {};
       board.attributes.lists.forEach((list) => {
         listIds.push(list.tid);
-        lists[list.tid] = list;
+        lists[list.tid] = { ...list };
+        lists[list.tid].laws = board.attributes.laws.filter((law) => law['list-tid'] === list.tid);
       });
 
       Object.assign(state, {

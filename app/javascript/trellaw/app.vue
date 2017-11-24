@@ -20,12 +20,14 @@ export default {
   },
   mounted() {
     if (window.boardId) {
+      this.$store.dispatch('laws/getLaws');
       this.$store.dispatch('board/getBoard', window.boardId);
     }
   },
   computed: {
    ...mapGetters({
      lists: 'board/lists',
+     laws: 'laws/laws',
     }),
   },
 }

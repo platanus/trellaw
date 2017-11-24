@@ -28,7 +28,7 @@ export default {
     display: inline-block;
     margin: 0 5px;
     width: 270px;
-    height: 100%;
+    min-height: 100%;
   }
 }
 </style>

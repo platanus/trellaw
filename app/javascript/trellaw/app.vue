@@ -2,6 +2,7 @@
   <div class="app">
     <app-header class="app__header"></app-header>
     <board class="app__board" :lists="lists"></board>
+    <law-container class="app__laws" :laws="laws"></law-container>
   </div>
 </template>
 
@@ -11,12 +12,14 @@ import { mapGetters } from 'vuex';
 import store from './store';
 import appHeader from '../trellaw/app-header.vue';
 import board from '../trellaw/board.vue';
+import lawContainer from '../trellaw/law-container.vue';
 
 export default {
   store,
   components: {
     appHeader,
     board,
+    lawContainer,
   },
   mounted() {
     if (window.boardId) {
@@ -66,6 +69,10 @@ body,
 
   &__board {
     flex: 100% 1 1;
+  }
+
+  &__laws {
+    flex: 40% 1 0;
   }
 }
 </style>

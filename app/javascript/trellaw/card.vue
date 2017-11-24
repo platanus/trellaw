@@ -14,7 +14,7 @@ export default {}
 .card {
   display: flex;
   height: 103px;
-  margin-bottom: 8px;
+  width: 238px;
   background-color: $card-bg;
   border-radius: 4px;
 }

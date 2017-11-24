@@ -3,7 +3,7 @@
     <div class="list">
       <div class="list__header">{{list.name}}</div>
       <div class="list__content">
-        <law v-for="listLaw in list.laws" :key="listLaw.id" :settings="listLaw.settings" :law="getLawById(listLaw.law)"></law>
+        <law class="list__law" v-for="listLaw in list.laws" :key="listLaw.id" :settings="listLaw.settings" :law="getLawById(listLaw.law)"></law>
         <card-target></card-target>
       </div>
     </div>
@@ -40,7 +40,7 @@ export default {
 .list {
   display: flex;
   flex-flow: column;
-  padding: 0 8px;
+  padding: 0 8px 8px;
   height: 100%;
 
   &__header {
@@ -55,6 +55,10 @@ export default {
     flex: 100% 1 1;
     border-radius: 4px;
     padding: 8px;
+  }
+
+  &__law {
+    margin-bottom: 8px;
   }
 }
 </style>
